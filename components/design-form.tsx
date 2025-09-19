@@ -9,7 +9,12 @@ import { GeneralQuestions } from "./form-steps/general-questions"
 import { ConditionalQuestions } from "./form-steps/conditional-questions"
 import { FinalStep } from "./form-steps/final-step"
 import { SuccessMessage } from "./form-steps/success-message"
-import { ChevronLeft, ChevronRight, Save, ArrowLeft } from "lucide-react"
+import { 
+  FaChevronLeft, 
+  FaChevronRight, 
+  FaSave, 
+  FaArrowLeft 
+} from "react-icons/fa"
 import { useToast } from "@/hooks/use-toast"
 
 export type ServiceType = "logo" | "visual-identity" | "website" | "graphic-assets" | "subscription"
@@ -298,7 +303,7 @@ export function DesignForm() {
             }}
             className="flex items-center space-x-2 text-muted-foreground hover:text-foreground touch-manipulation"
           >
-            <ArrowLeft className="w-4 h-4" />
+            <FaArrowLeft className="w-4 h-4" />
             <span>Volver al sitio web</span>
           </Button>
         </div>
@@ -410,7 +415,7 @@ export function DesignForm() {
               disabled={currentStep === 1}
               className="flex items-center space-x-2 bg-transparent"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <FaChevronLeft className="w-4 h-4" />
               <span>Atrás</span>
             </Button>
 
@@ -422,7 +427,7 @@ export function DesignForm() {
                 disabled={isSaving}
                 className="flex items-center space-x-2"
               >
-                <Save className="w-4 h-4" />
+                <FaSave className="w-4 h-4" />
                 <span>{isSaving ? "Guardando..." : "Guardar"}</span>
               </Button>
 
@@ -438,7 +443,7 @@ export function DesignForm() {
               className="flex items-center space-x-2"
             >
               <span>{currentStep === totalSteps ? "Enviar" : "Siguiente"}</span>
-              {currentStep !== totalSteps && <ChevronRight className="w-4 h-4" />}
+              {currentStep !== totalSteps && <FaChevronRight className="w-4 h-4" />}
             </Button>
           </div>
         </div>

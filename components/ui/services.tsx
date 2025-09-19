@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowRight, ChevronUp } from "lucide-react"
+import { FaArrowRight, FaChevronUp } from "react-icons/fa"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Image from "next/image"
@@ -121,9 +121,9 @@ export default function Services() {
                       </span>
                       <div className="flex items-center space-x-2">
                         {expandedService === index ? (
-                          <ChevronUp className="w-6 h-6 group-hover:text-[#bfe220] transition-all duration-300" />
+                          <FaChevronUp className="w-6 h-6 group-hover:text-[#bfe220] transition-all duration-300" />
                         ) : (
-                          <ArrowRight className="w-6 h-6 group-hover:text-[#bfe220] group-hover:translate-x-2 transition-all duration-300" />
+                          <FaArrowRight className="w-6 h-6 group-hover:text-[#bfe220] group-hover:translate-x-2 transition-all duration-300" />
                         )}
                       </div>
                     </div>

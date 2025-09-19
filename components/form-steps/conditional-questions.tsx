@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import type { ServiceType } from "../design-form"
-import { ArrowLeft, Check } from "lucide-react"
+import { FaArrowLeft, FaCheck } from "react-icons/fa"
 
 interface ConditionalQuestionsProps {
   serviceType: ServiceType
@@ -87,7 +87,7 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
         price: "$75,000",
         description: "Perfecto para emprendedores que necesitan diseño básico",
         features: [
-          "2 piezas gráficas por mes",
+          "5 piezas gráficas por mes (3 historias y 2 posts)",
           "1 revisión por pieza",
           "Formatos: PNG, JPG, PDF",
           "Soporte por email",
@@ -97,11 +97,11 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
       {
         id: "emprendedor",
         name: "Emprendedor",
-        price: "$135,000",
+        price: "$100,000",
         description: "Ideal para pequeñas empresas en crecimiento",
         features: [
-          "5 piezas gráficas por mes",
-          "2 revisiones por pieza",
+          "10 piezas gráficas por mes (5 historias y 5 posts)",
+          "1 revisiones por pieza",
           "Formatos: PNG, JPG, PDF",
           "Soporte prioritario",
           "Tiempo de entrega: 3-5 días",
@@ -115,13 +115,13 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
         price: "$250,000",
         description: "Para empresas establecidas con necesidades complejas",
         features: [
-          "10 piezas gráficas por mes",
+          "10 piezas gráficas por mes a elección",
           "2 revisiones por pieza",
           "Formatos: PNG, JPG, PDF",
           "Soporte en horario laboral (9:00 - 20:00)",
           "Tiempo de entrega: 1-3 días",
           "2 sesiones de consultoría mensual",
-          "Estrategia de marca incluida",
+          "Estrategia de marca incluida (CM by @moniquitalorca)",
         ],
       },
     ]
@@ -162,7 +162,7 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
                 <ul className="space-y-2">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start space-x-2">
-                      <Check className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
+                      <FaCheck className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
                       <span className="text-sm">{feature}</span>
                     </li>
                   ))}
@@ -170,7 +170,7 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
                 {answers.subscriptionPlan === plan.id && (
                   <div className="mt-4 flex justify-center">
                     <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
+                      <FaCheck className="w-4 h-4 text-white" />
                     </div>
                   </div>
                 )}
@@ -302,7 +302,7 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
               type="number"
               id="revisions"
               value={answers.revisions || ""}
-              onChange={(e) => updateAnswer("revisions", Number.parseInt(e.target.value) || 0)}
+              onChange={(e) => {const value = Math.max(1, Number.parseInt(e.target.value) || 0); updateAnswer("revisions", value);}}
               className="h-12"
               min="1"
               max="3"
@@ -568,7 +568,7 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
 
       <div className="flex justify-between pt-6">
         <Button variant="outline" onClick={onPrev} size="lg" className="min-w-[120px] bg-transparent">
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <FaArrowLeft className="w-4 h-4 mr-2" />
           Atrás
         </Button>
         <Button onClick={handleNext} size="lg" className="min-w-[120px]">

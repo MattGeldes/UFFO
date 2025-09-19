@@ -1,42 +1,41 @@
 import Link from "next/link"
 import Image from "next/image"
-import { MapPin, Phone, Mail, Instagram, MessageCircle, AtSign } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { 
+  FaMapMarkerAlt, 
+  FaPhone, 
+  FaEnvelope, 
+  FaInstagram, 
+  FaWhatsapp, 
+  FaPinterest, 
+  FaBehance 
+} from "react-icons/fa"
 
 export default function Footer() {
   const socialLinks = [
     {
-      icon: Instagram,
+      icon: FaInstagram,
       href: "https://www.instagram.com/uffostudios",
       label: "Instagram",
     },
     {
-      icon: MessageCircle,
+      icon: FaWhatsapp,
       href: "https://wa.me/5492604002739",
       label: "WhatsApp",
     },
     {
-      icon: AtSign,
+      icon: FaEnvelope,
       href: "mailto:somosuffo@gmail.com",
       label: "Email",
     },
     {
-      icon: () => (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 0C5.374 0 0 5.374 0 12s5.374 12 12 12 12-5.374 12-12S18.626 0 12 0zm5.568 8.16c-.169 1.858-.896 7.728-.896 7.728-.379 2.655-1.407 3.119-2.752 3.119-1.39 0-2.326-.554-2.326-1.644 0-.694.405-1.235 1.004-1.235.509 0 .909.399.909.909 0 .524-.379.945-.848.945-.179 0-.329-.09-.329-.269 0-.149.12-.269.269-.269.089 0 .179.06.179.149 0 .06-.06.12-.12.12-.03 0-.06-.03-.06-.06 0-.03.03-.06.06-.06.06 0 .12.06.12.12 0 .179-.149.329-.329.329-.269 0-.509-.239-.509-.509 0-.689.599-1.235 1.345-1.235 1.036 0 1.874.838 1.874 1.874 0 1.644-1.345 2.989-2.989 2.989-2.147 0-3.881-1.734-3.881-3.881 0-2.147 1.734-3.881 3.881-3.881 1.644 0 3.119 1.036 3.731 2.616z" />
-        </svg>
-      ),
+      icon: FaPinterest,
       href: "https://www.pinterest.com/somosuffo",
       label: "Pinterest",
     },
     {
-      icon: () => (
-        <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M7.5 3.5h9v17h-9z" />
-          <path d="M8 4v16h8V4H8zm7 14.5h-6v-13h6v13z" />
-        </svg>
-      ),
+      icon: FaBehance,
       href: "https://www.behance.net/uffo",
       label: "Behance",
     },
@@ -78,15 +77,15 @@ export default function Footer() {
 
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <MapPin className="w-5 h-5 text-[#bfe220] flex-shrink-0" />
+                <FaMapMarkerAlt className="w-5 h-5 text-[#bfe220] flex-shrink-0" />
                 <span className="text-gray-300">San Rafael, Mendoza, Argentina</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-[#bfe220] flex-shrink-0" />
+                <FaPhone className="w-5 h-5 text-[#bfe220] flex-shrink-0" />
                 <span className="text-gray-300">+54 92604002739</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-[#bfe220] flex-shrink-0" />
+                <FaEnvelope className="w-5 h-5 text-[#bfe220] flex-shrink-0" />
                 <span className="text-gray-300">somosuffo@gmail.com</span>
               </div>
             </div>

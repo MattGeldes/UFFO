@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import type { FormData } from "../design-form"
-import { ArrowLeft } from "lucide-react"
+import { FaArrowLeft } from "react-icons/fa"
 
 interface GeneralQuestionsProps {
   formData: FormData
@@ -22,7 +22,7 @@ const budgetRanges = [
   { value: "100k-200k", label: "$100,000 - $200,000" },
   { value: "200k-300k", label: "$200,000 - $300,000" },
   { value: "300k-500k", label: "$300,000 - $500,000" },
-  { value: "discuss", label: "Conversemos sobre el presupuesto" }, // Updated to more natural Spanish
+  { value: "discuss", label: "Tengo un presupuesto mayor" }, // Updated to more natural Spanish
 ]
 
 const communicationMethods = [
@@ -460,7 +460,7 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
 
       <div className="flex justify-between pt-6">
         <Button variant="outline" onClick={onPrev} size="lg" className="min-w-[120px] bg-transparent">
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <FaArrowLeft className="w-4 h-4 mr-2" />
           Atrás
         </Button>
         <Button onClick={handleNext} size="lg" className="min-w-[120px]">

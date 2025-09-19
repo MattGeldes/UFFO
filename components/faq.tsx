@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown, ChevronUp } from "lucide-react"
+import { FaChevronDown, FaChevronUp } from "react-icons/fa"
 import { Card, CardContent } from "@/components/ui/card"
 
 export default function FAQ() {
@@ -75,9 +75,9 @@ export default function FAQ() {
                   <h3 className="text-lg font-semibold text-foreground pr-4">{item.question}</h3>
                   <div className="flex-shrink-0">
                     {openItems.includes(index) ? (
-                      <ChevronUp className="w-5 h-5 text-primary" />
+                      <FaChevronUp className="w-5 h-5 text-primary" />
                     ) : (
-                      <ChevronDown className="w-5 h-5 text-muted-foreground" />
+                      <FaChevronDown className="w-5 h-5 text-muted-foreground" />
                     )}
                   </div>
                 </button>

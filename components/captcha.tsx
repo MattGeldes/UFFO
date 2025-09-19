@@ -5,7 +5,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RefreshCw, Shield } from "lucide-react"
+import { FaSync, FaShieldAlt } from "react-icons/fa"
 
 interface CaptchaProps {
   onVerify: (isVerified: boolean) => void
@@ -54,7 +54,7 @@ export function Captcha({ onVerify, isVerified }: CaptchaProps) {
     <Card className={`border-2 ${isVerified ? "border-green-500 bg-green-50" : "border-gray-300"}`}>
       <CardContent className="p-4">
         <div className="flex items-center space-x-2 mb-3">
-          <Shield className={`w-5 h-5 ${isVerified ? "text-green-600" : "text-gray-600"}`} />
+          <FaShieldAlt className={`w-5 h-5 ${isVerified ? "text-green-600" : "text-gray-600"}`} />
           <Label className="font-semibold">Verificación de Seguridad</Label>
         </div>
 
@@ -85,7 +85,7 @@ export function Captcha({ onVerify, isVerified }: CaptchaProps) {
                 Verificar
               </Button>
               <Button variant="outline" onClick={generateCaptcha} size="icon">
-                <RefreshCw className="w-4 h-4" />
+                <FaSync className="w-4 h-4" />
               </Button>
             </div>
 

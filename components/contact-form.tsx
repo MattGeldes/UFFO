@@ -3,7 +3,14 @@
 import type React from "react"
 
 import { useState } from "react"
-import { Send, MapPin, Phone, Mail, Clock, CheckCircle } from "lucide-react"
+import { 
+  FaPaperPlane, 
+  FaMapMarkerAlt, 
+  FaPhone, 
+  FaEnvelope, 
+  FaClock, 
+  FaCheckCircle 
+} from "react-icons/fa"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -44,25 +51,25 @@ export default function ContactForm() {
 
   const contactInfo = [
     {
-      icon: MapPin,
+      icon: FaMapMarkerAlt,
       title: "Ubicación",
       content: "San Rafael, Mendoza, Argentina",
       description: "Trabajamos desde Mendoza para el mundo",
     },
     {
-      icon: Phone,
+      icon: FaPhone,
       title: "Teléfono",
       content: "+54 926046666",
       description: "Lunes a Viernes, 9:00 - 18:00",
     },
     {
-      icon: Mail,
+      icon: FaEnvelope,
       title: "Email",
       content: "@somosuffo",
       description: "Respuesta en menos de 24 horas",
     },
     {
-      icon: Clock,
+      icon: FaClock,
       title: "Horarios",
       content: "Lun - Vie: 9:00 - 18:00",
       description: "Sáb: 9:00 - 13:00",
@@ -95,7 +102,7 @@ export default function ContactForm() {
       <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted px-4 pt-20">
         <Card className="w-full max-w-md text-center shadow-2xl">
           <CardContent className="p-8">
-            <CheckCircle className="w-16 h-16 text-primary mx-auto mb-6" />
+            <FaCheckCircle className="w-16 h-16 text-primary mx-auto mb-6" />
             <h2 className="text-2xl font-bold text-foreground mb-4">¡Mensaje Enviado!</h2>
             <p className="text-muted-foreground mb-6">
               Gracias por contactarnos. Nos pondremos en contacto contigo en las próximas 24 horas.
@@ -154,19 +161,19 @@ export default function ContactForm() {
                 <h3 className="text-xl font-bold mb-4">¿Por qué elegirnos?</h3>
                 <ul className="space-y-3 text-sm">
                   <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                    <FaCheckCircle className="w-4 h-4 flex-shrink-0" />
                     <span>Respuesta rápida en menos de 24 horas</span>
                   </li>
                   <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                    <FaCheckCircle className="w-4 h-4 flex-shrink-0" />
                     <span>Cotización personalizada y gratuita</span>
                   </li>
                   <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                    <FaCheckCircle className="w-4 h-4 flex-shrink-0" />
                     <span>Proceso de trabajo transparente</span>
                   </li>
                   <li className="flex items-center space-x-2">
-                    <CheckCircle className="w-4 h-4 flex-shrink-0" />
+                    <FaCheckCircle className="w-4 h-4 flex-shrink-0" />
                     <span>Soporte continuo post-entrega</span>
                   </li>
                 </ul>
@@ -305,7 +312,7 @@ export default function ContactForm() {
                       </div>
                     ) : (
                       <div className="flex items-center space-x-2">
-                        <Send className="w-5 h-5" />
+                        <FaPaperPlane className="w-5 h-5" />
                         <span>Enviar Mensaje</span>
                       </div>
                     )}
