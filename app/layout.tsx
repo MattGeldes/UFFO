@@ -14,9 +14,9 @@ export const metadata: Metadata = {
   description: "Personas creando tus ideas. Diseñamos desde Mendoza para el mundo.",
   generator: "UFFO Studios",
   icons: {
-    icon: "/logo-uffo.jpg",
-    shortcut: "/logo-uffo.jpg",
-    apple: "/logo-uffo.jpg",
+    icon: "/logo-uffo.svg",
+    shortcut: "/logo-uffo.svg",
+    apple: "/logo-uffo.svg",
   },
 }
 
