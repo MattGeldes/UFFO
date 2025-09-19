@@ -84,7 +84,13 @@ export function Captcha({ onVerify, isVerified }: CaptchaProps) {
               <Button onClick={handleVerify} disabled={!userAnswer}>
                 Verificar
               </Button>
-              <Button variant="outline" onClick={generateCaptcha} size="icon">
+              <Button 
+                variant="outline" 
+                onClick={generateCaptcha} 
+                size="icon"
+                className="min-w-[44px] min-h-[44px] flex items-center justify-center"
+                style={{ touchAction: 'manipulation' }}
+              >
                 <FaSync className="w-4 h-4" />
               </Button>
             </div>

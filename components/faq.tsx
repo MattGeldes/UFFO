@@ -50,34 +50,35 @@ export default function FAQ() {
   ]
 
   return (
-    <section id="faq" className="py-20 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16 animate-fade-in-up">
-          <h2 className="text-4xl sm:text-5xl font-bold text-foreground mb-4">Preguntas Frecuentes</h2>
+    <section id="faq" className="pt-12 sm:pt-16 lg:pt-20 pb-0 bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-0">
+        <div className="text-center mb-8 sm:mb-12 lg:mb-16 animate-fade-in-up">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">Preguntas Frecuentes</h2>
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
-          <p className="text-xl text-muted-foreground mt-6 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground mt-4 sm:mt-6 max-w-2xl mx-auto px-4">
             Resolvemos las dudas más comunes sobre nuestros servicios
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-4">
+        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4 mb-0">
           {faqItems.map((item, index) => (
             <Card
               key={index}
-              className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up"
+              className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 animate-fade-in-up mx-2 sm:mx-0"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
               <CardContent className="p-0">
                 <button
                   onClick={() => toggleItem(index)}
-                  className="w-full p-6 text-left flex items-center justify-between hover:bg-muted/50 transition-colors duration-300"
+                  className="w-full p-4 sm:p-6 text-left flex items-center justify-between hover:bg-muted/50 transition-colors duration-300 min-h-[60px] touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
                 >
-                  <h3 className="text-lg font-semibold text-foreground pr-4">{item.question}</h3>
-                  <div className="flex-shrink-0">
+                  <h3 className="text-base sm:text-lg font-semibold text-foreground pr-3 sm:pr-4">{item.question}</h3>
+                  <div className="flex-shrink-0 min-w-[32px] min-h-[32px] flex items-center justify-center">
                     {openItems.includes(index) ? (
-                      <FaChevronUp className="w-5 h-5 text-primary" />
+                      <FaChevronUp className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     ) : (
-                      <FaChevronDown className="w-5 h-5 text-muted-foreground" />
+                      <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 text-muted-foreground" />
                     )}
                   </div>
                 </button>
@@ -87,9 +88,9 @@ export default function FAQ() {
                     openItems.includes(index) ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="px-6 pb-6">
-                    <div className="w-full h-px bg-border mb-4"></div>
-                    <p className="text-muted-foreground leading-relaxed text-justify">{item.answer}</p>
+                  <div className="px-4 sm:px-6 pb-4 sm:pb-6">
+                    <div className="w-full h-px bg-border mb-3 sm:mb-4"></div>
+                    <p className="text-sm sm:text-base text-muted-foreground leading-relaxed text-justify">{item.answer}</p>
                   </div>
                 </div>
               </CardContent>

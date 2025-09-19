@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Menu, X } from "lucide-react"
+import { FaBars, FaTimes } from "react-icons/fa"
 import { Button } from "@/components/ui/button"
 
 export default function Navigation() {
@@ -29,6 +29,14 @@ export default function Navigation() {
       document.body.style.overflow = "unset"
     }
   }, [isOpen])
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen)
+  }
+
+  const closeMenu = () => {
+    setIsOpen(false)
+  }
 
   const scrollToFooter = () => {
     const footer = document.getElementById("footer")
@@ -82,24 +90,28 @@ export default function Navigation() {
           <Button
             variant="ghost"
             size="icon"
-            className="md:hidden text-white hover:text-[#bfe220] hover:bg-transparent"
-            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden text-white hover:text-[#bfe220] hover:bg-transparent min-w-[44px] min-h-[44px] flex items-center justify-center relative z-50"
+            onClick={toggleMenu}
+            onTouchStart={toggleMenu}
+            style={{ touchAction: 'manipulation' }}
           >
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            {isOpen ? <FaTimes className="h-6 w-6" /> : <FaBars className="h-6 w-6" />}
           </Button>
         </nav>
 
         {isOpen && (
-          <div className="md:hidden fixed inset-0 top-0 bg-[#181818] z-[9999] shadow-2xl animate-fade-in-up">
+          <div className="md:hidden fixed inset-0 top-0 bg-[#181818] z-[9999] shadow-2xl animate-fade-in-up mobile-nav">
             <div className="flex items-center justify-between p-6 border-b border-[#4e6e5d]/30">
               <Image src="/logo-uffo.svg" alt="UFFO Studios" width={32} height={32} className="w-8 h-8" />
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-white hover:text-[#bfe220] hover:bg-transparent"
-                onClick={() => setIsOpen(false)}
+                className="text-white hover:text-[#bfe220] hover:bg-transparent min-w-[44px] min-h-[44px] flex items-center justify-center"
+                onClick={closeMenu}
+                onTouchStart={closeMenu}
+                style={{ touchAction: 'manipulation' }}
               >
-                <X className="h-6 w-6" />
+                <FaTimes className="h-6 w-6" />
               </Button>
             </div>
 
@@ -108,7 +120,8 @@ export default function Navigation() {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="block px-4 py-4 text-white hover:text-[#bfe220] transition-colors duration-300 font-medium text-xl nav-link border-b border-[#4e6e5d]/20"
+                  className="block px-4 py-4 text-white hover:text-[#bfe220] transition-colors duration-300 font-medium text-xl nav-link border-b border-[#4e6e5d]/20 min-h-[56px] flex items-center"
+                  style={{ touchAction: 'manipulation' }}
                   onClick={() => {
                     if (link.onClick) {
                       link.onClick()
