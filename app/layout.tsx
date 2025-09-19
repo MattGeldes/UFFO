@@ -10,7 +10,7 @@ const rubik = Rubik({
 })
 
 export const metadata: Metadata = {
-  title: "UFFO Studios - Diseño y Creatividad",
+  title: "UFFO Studios",
   description: "Personas creando tus ideas. Diseñamos desde Mendoza para el mundo.",
   generator: "UFFO Studios",
   icons: {
