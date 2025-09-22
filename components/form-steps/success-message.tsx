@@ -1,6 +1,5 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { FaEnvelope, FaArrowLeft, FaComments, FaHome, FaDownload } from "react-icons/fa"
 import Image from "next/image"
@@ -130,76 +129,96 @@ ${formData.additionalComments}`,
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/30 py-8 px-4 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 py-8 px-4 flex items-center justify-center">
       <div className="max-w-2xl mx-auto">
-        <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
-          <CardContent className="p-8 text-center">
+        <div className="shadow-2xl bg-white rounded-2xl border border-gray-200 overflow-hidden">
+          <div className="p-8 text-center">
             <div className="mb-6">
-              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center bg-[#BFE220]/10 rounded-full">
                 <Image src="/logo-uffo.svg" alt="UFFO Studios Logo" width={64} height={64} className="object-contain" />
               </div>
-              <h1 className="text-3xl font-bold text-foreground mb-2">¡Gracias!</h1>
-              <p className="text-lg text-muted-foreground">
+              <h1 className="text-3xl font-bold text-gray-900 mb-2 font-['Rubik',sans-serif]">¡Gracias!</h1>
+              <p className="text-lg text-gray-600 font-['Rubik',sans-serif] font-light">
                 Tu solicitud de propuesta de diseño ha sido enviada exitosamente
               </p>
             </div>
 
             <div className="space-y-4 mb-8">
-              <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                <FaEnvelope className="w-4 h-4" />
+              <div className="flex items-center justify-center space-x-2 text-sm text-gray-600 font-['Rubik',sans-serif]">
+                <FaEnvelope className="w-4 h-4 text-[#BFE220]" />
                 <span>Tu solicitud ha sido enviada a nuestro equipo de diseño</span>
               </div>
             </div>
 
-            <div className="bg-muted/50 rounded-lg p-6 mb-8">
-              <h3 className="font-semibold text-foreground mb-2">¿Qué sigue?</h3>
-              <ul className="text-sm text-muted-foreground space-y-2 text-left">
-                <li>• Revisaremos tus requerimientos en las próximas 24 horas</li>
-                <li>• Recibirás una propuesta detallada con precios y cronograma</li>
-                <li>• Programaremos una llamada de consulta para discutir tu proyecto</li>
-                <li>• Una vez aprobado, comenzaremos a crear tu increíble diseño</li>
+            <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6 mb-8 border border-blue-200">
+              <h3 className="font-semibold text-gray-900 mb-2 font-['Rubik',sans-serif]">¿Qué sigue?</h3>
+              <ul className="text-sm text-gray-700 space-y-2 text-left font-['Rubik',sans-serif] font-light">
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2 mt-1">•</span>
+                  Revisaremos tus requerimientos en las próximas 24 horas
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2 mt-1">•</span>
+                  Recibirás una propuesta detallada con precios y cronograma
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2 mt-1">•</span>
+                  Programaremos una llamada de consulta para discutir tu proyecto
+                </li>
+                <li className="flex items-start">
+                  <span className="text-blue-500 mr-2 mt-1">•</span>
+                  Una vez aprobado, comenzaremos a crear tu increíble diseño
+                </li>
               </ul>
             </div>
 
             {/* Botón destacado para descargar PDF */}
-            <div className="bg-[#BFE220]/10 border border-[#BFE220]/30 rounded-lg p-6 mb-6">
-              <h3 className="font-semibold text-foreground mb-2">📄 Guarda una copia de tu consulta</h3>
-              <p className="text-sm text-muted-foreground mb-4">
+            <div className="bg-gradient-to-r from-[#BFE220]/10 to-[#BFE220]/5 border border-[#BFE220]/30 rounded-xl p-6 mb-6 shadow-sm">
+              <h3 className="font-semibold text-gray-900 mb-2 font-['Rubik',sans-serif]">📄 Guarda una copia de tu consulta</h3>
+              <p className="text-sm text-gray-600 mb-4 font-['Rubik',sans-serif] font-light">
                 Descarga un documento con todos los detalles de tu solicitud para tus registros
               </p>
               <Button 
                 onClick={handleDownloadPDF}
-                className="bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-semibold min-w-[200px]"
+                className="bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-semibold min-w-[200px] font-['Rubik',sans-serif] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 <FaDownload className="w-4 h-4 mr-2" />
-                Descargar Resumen PDF
+                Descargar Consulta
               </Button>
             </div>
 
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-gray-600 font-['Rubik',sans-serif] font-light">
                 ¿Tienes preguntas o necesitas hacer cambios a tu solicitud?
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                <Button variant="outline" onClick={handleBackToHome} className="min-w-[160px] bg-transparent">
+                <Button 
+                  variant="outline" 
+                  onClick={handleBackToHome} 
+                  className="min-w-[160px] bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-900 font-['Rubik',sans-serif] rounded-xl transition-all duration-300"
+                >
                   <FaHome className="w-4 h-4 mr-2" />
                   Volver al Menú
                 </Button>
-                <Button variant="outline" onClick={handleNewSubmission} className="min-w-[160px] bg-transparent">
+                <Button 
+                  variant="outline" 
+                  onClick={handleNewSubmission} 
+                  className="min-w-[160px] bg-white border-gray-300 text-gray-700 hover:bg-gray-50 hover:border-gray-400 hover:text-gray-900 font-['Rubik',sans-serif] rounded-xl transition-all duration-300"
+                >
                   <FaArrowLeft className="w-4 h-4 mr-2" />
                   Enviar otra solicitud
                 </Button>
                 <Button
                   onClick={handleWhatsAppContact}
-                  className="min-w-[160px] bg-[#181818] hover:bg-[#2a2a2a] text-[#BFE220]"
+                  className="min-w-[160px] bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-semibold font-['Rubik',sans-serif] rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
                 >
                   <FaComments className="w-4 h-4 mr-2" />
                   Contáctanos
                 </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   )

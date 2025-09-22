@@ -115,16 +115,16 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
   }, [onUpdate])
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Cuéntanos sobre tu negocio</h2>
-        <p className="text-muted-foreground">Ayúdanos a entender tu empresa y los requisitos del proyecto</p>
+    <div className="space-y-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-700">
+      <div className="text-center animate-in fade-in-50 slide-in-from-top-4 duration-500 delay-150">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2 font-['Rubik',sans-serif]">Cuéntanos sobre tu negocio</h2>
+        <p className="text-gray-600 font-['Rubik',sans-serif] font-light">Ayúdanos a entender tu empresa y los requisitos del proyecto</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-700 delay-300">
         {/* Company Name */}
         <div className="space-y-2">
-          <Label htmlFor="companyName" className="text-sm font-medium">
+          <Label htmlFor="companyName" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Nombre de la Empresa *
           </Label>
           <Input
@@ -134,12 +134,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="Ingresa el nombre de tu empresa"
             className={`h-12 ${errors.companyName ? "border-destructive" : ""}`}
           />
-          {errors.companyName && <p className="text-sm text-destructive">{errors.companyName}</p>}
+          {errors.companyName && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.companyName}</p>}
         </div>
 
         {/* Contact Name */}
         <div className="space-y-2">
-          <Label htmlFor="contactName" className="text-sm font-medium">
+          <Label htmlFor="contactName" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Nombre del Contacto *
           </Label>
           <Input
@@ -149,12 +149,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="Tu nombre completo"
             className={`h-12 ${errors.contactName ? "border-destructive" : ""}`}
           />
-          {errors.contactName && <p className="text-sm text-destructive">{errors.contactName}</p>}
+          {errors.contactName && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.contactName}</p>}
         </div>
 
         {/* Email */}
         <div className="space-y-2">
-          <Label htmlFor="email" className="text-sm font-medium">
+          <Label htmlFor="email" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Correo Electrónico *
           </Label>
           <Input
@@ -165,12 +165,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="tu@email.com"
             className={`h-12 ${errors.email ? "border-destructive" : ""}`}
           />
-          {errors.email && <p className="text-sm text-destructive">{errors.email}</p>}
+          {errors.email && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.email}</p>}
         </div>
 
         {/* Phone */}
         <div className="space-y-2">
-          <Label htmlFor="phone" className="text-sm font-medium">
+          <Label htmlFor="phone" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Teléfono *
           </Label>
           <Input
@@ -181,12 +181,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="+54 9 2604002739"
             className={`h-12 ${errors.phone ? "border-destructive" : ""}`}
           />
-          {errors.phone && <p className="text-sm text-destructive">{errors.phone}</p>}
+          {errors.phone && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.phone}</p>}
         </div>
 
         {/* Industry */}
         <div className="space-y-2">
-          <Label htmlFor="industry" className="text-sm font-medium">
+          <Label htmlFor="industry" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Industria / Tipo de Negocio *
           </Label>
           <Input
@@ -196,12 +196,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="ej. Tecnología, Salud, Retail"
             className={`h-12 ${errors.industry ? "border-destructive" : ""}`}
           />
-          {errors.industry && <p className="text-sm text-destructive">{errors.industry}</p>}
+          {errors.industry && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.industry}</p>}
         </div>
 
         {/* Website or Social Media */}
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="websiteOrSocial" className="text-sm font-medium">
+          <Label htmlFor="websiteOrSocial" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Sitio Web o Redes Sociales (si existen)
           </Label>
           <Input
@@ -215,7 +215,7 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
 
         {/* Company Description */}
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="companyDescription" className="text-sm font-medium">
+          <Label htmlFor="companyDescription" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Breve Descripción de tu Empresa *
           </Label>
           <Textarea
@@ -225,12 +225,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="Cuéntanos qué hace tu empresa, tu audiencia objetivo y tu misión"
             className={`min-h-[100px] resize-none ${errors.companyDescription ? "border-destructive" : ""}`}
           />
-          {errors.companyDescription && <p className="text-sm text-destructive">{errors.companyDescription}</p>}
+          {errors.companyDescription && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.companyDescription}</p>}
         </div>
 
         {/* Operating Time */}
         <div className="space-y-2">
-          <Label htmlFor="operatingTime" className="text-sm font-medium">
+          <Label htmlFor="operatingTime" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Tiempo Operando / Fecha de Inicio Planeada *
           </Label>
           <Input
@@ -240,13 +240,13 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="ej. 5 años, Iniciando en Marzo 2024"
             className={`h-12 ${errors.operatingTime ? "border-destructive" : ""}`}
           />
-          {errors.operatingTime && <p className="text-sm text-destructive">{errors.operatingTime}</p>}
+          {errors.operatingTime && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.operatingTime}</p>}
         </div>
 
         {/* Budget - Solo mostrar si no es suscripción */}
         {formData.selectedService !== "subscription" && (
           <div className="space-y-2">
-            <Label htmlFor="budget" className="text-sm font-medium">
+            <Label htmlFor="budget" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
               Presupuesto Estimado *
             </Label>
             <Select value={formData.budget} onValueChange={(value) => handleInputChange("budget", value)}>
@@ -261,13 +261,13 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
                 ))}
               </SelectContent>
             </Select>
-            {errors.budget && <p className="text-sm text-destructive">{errors.budget}</p>}
+            {errors.budget && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.budget}</p>}
           </div>
         )}
 
         {/* Unique Selling Point */}
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="uniqueSellingPoint" className="text-sm font-medium">
+          <Label htmlFor="uniqueSellingPoint" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             ¿Qué Hace que tu Negocio se Destaque? *
           </Label>
           <Textarea
@@ -277,12 +277,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="Describe tu propuesta única de valor, ventajas competitivas o qué te diferencia"
             className={`min-h-[80px] resize-none ${errors.uniqueSellingPoint ? "border-destructive" : ""}`}
           />
-          {errors.uniqueSellingPoint && <p className="text-sm text-destructive">{errors.uniqueSellingPoint}</p>}
+          {errors.uniqueSellingPoint && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.uniqueSellingPoint}</p>}
         </div>
 
         {/* Deadline */}
         <div className="space-y-2">
-          <Label htmlFor="deadline" className="text-sm font-medium">
+          <Label htmlFor="deadline" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Fecha Límite / Fecha de Entrega Esperada *
           </Label>
           <Select
@@ -303,12 +303,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
               <SelectItem value="lo-antes-posible">Lo antes posible</SelectItem>
             </SelectContent>
           </Select>
-          {errors.deadline && <p className="text-sm text-destructive">{errors.deadline}</p>}
+          {errors.deadline && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.deadline}</p>}
         </div>
 
         {/* Decision Maker */}
         <div className="space-y-2">
-          <Label htmlFor="decisionMaker" className="text-sm font-medium">
+          <Label htmlFor="decisionMaker" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             ¿Quién Toma las Decisiones Finales de Diseño? *
           </Label>
           <Input
@@ -318,7 +318,7 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="ej. CEO, Director de Marketing, Yo"
             className={`h-12 ${errors.decisionMaker ? "border-destructive" : ""}`}
           />
-          {errors.decisionMaker && <p className="text-sm text-destructive">{errors.decisionMaker}</p>}
+          {errors.decisionMaker && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.decisionMaker}</p>}
         </div>
 
         {/* Business Location with Postal Code Lookup */}
@@ -336,7 +336,7 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
 
         {/* Communication Method */}
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="communicationMethod" className="text-sm font-medium">
+          <Label htmlFor="communicationMethod" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Método de Comunicación Preferido *
           </Label>
           <Select
@@ -354,11 +354,11 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
               ))}
             </SelectContent>
           </Select>
-          {errors.communicationMethod && <p className="text-sm text-destructive">{errors.communicationMethod}</p>}
+          {errors.communicationMethod && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.communicationMethod}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="contactSchedule" className="text-sm font-medium">
+          <Label htmlFor="contactSchedule" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             ¿En qué horario nos podemos contactar? *
           </Label>
           <Select
@@ -374,11 +374,11 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
               <SelectItem value="flexible">Flexible</SelectItem>
             </SelectContent>
           </Select>
-          {errors.contactSchedule && <p className="text-sm text-destructive">{errors.contactSchedule}</p>}
+          {errors.contactSchedule && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.contactSchedule}</p>}
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="contactFrequency" className="text-sm font-medium">
+          <Label htmlFor="contactFrequency" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             ¿Con qué frecuencia prefieres que nos contactemos? *
           </Label>
           <Select
@@ -396,12 +396,12 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
               <SelectItem value="as-needed">Solo cuando sea necesario</SelectItem>
             </SelectContent>
           </Select>
-          {errors.contactFrequency && <p className="text-sm text-destructive">{errors.contactFrequency}</p>}
+          {errors.contactFrequency && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.contactFrequency}</p>}
         </div>
 
         {/* Design Expectations */}
         <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="designExpectations" className="text-sm font-medium">
+          <Label htmlFor="designExpectations" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
             Expectativas para el Proceso de Diseño *
           </Label>
           <Textarea
@@ -411,16 +411,25 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             placeholder="Cuéntanos sobre tus expectativas, estilo preferido, número de revisiones, cronograma, etc."
             className={`min-h-[100px] resize-none ${errors.designExpectations ? "border-destructive" : ""}`}
           />
-          {errors.designExpectations && <p className="text-sm text-destructive">{errors.designExpectations}</p>}
+          {errors.designExpectations && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.designExpectations}</p>}
         </div>
       </div>
 
-      <div className="flex justify-between pt-6">
-        <Button variant="outline" onClick={onPrev} size="lg" className="min-w-[120px] bg-transparent">
+      <div className="flex justify-between pt-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-500 delay-500">
+        <Button 
+          variant="outline" 
+          onClick={onPrev} 
+          size="lg" 
+          className="min-w-[120px] bg-transparent border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400 font-['Rubik',sans-serif] transition-all duration-300 hover:shadow-md transform hover:scale-105"
+        >
           <FaArrowLeft className="w-4 h-4 mr-2" />
           Atrás
         </Button>
-        <Button onClick={handleNext} size="lg" className="min-w-[120px]">
+        <Button 
+          onClick={handleNext} 
+          size="lg" 
+          className="min-w-[120px] bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-bold font-['Rubik',sans-serif] transition-all duration-300 hover:shadow-lg transform hover:scale-105"
+        >
           Continuar
         </Button>
       </div>

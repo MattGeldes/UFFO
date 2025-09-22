@@ -78,10 +78,15 @@ function parseMessageToHTML(mensaje: string): any {
       else if (campo === 'Timeline') parsed.timeline = valor;
       else if (campo === 'Expectativas de diseño') parsed.expectativas = valor;
       else if (campo === 'Responsable de decisiones') parsed.responsableDecisiones = valor;
-      else if (campo === 'Método preferido') parsed.metodoComunicacion = valor;
-      else if (campo === 'Horario') parsed.horario = valor;
-      else if (campo === 'Frecuencia') parsed.frecuencia = valor;
-      else if (campo === 'Método preferido') parsed.metodoPago = valor;
+      else if (campo === 'Método preferido') {
+        if (currentSection === 'comunicacion') {
+          parsed.metodoComunicacion = translateCommunicationMethod(valor);
+        } else if (currentSection === 'pago') {
+          parsed.metodoPago = translatePaymentMethod(valor);
+        }
+      }
+      else if (campo === 'Horario') parsed.horario = translateSchedule(valor);
+      else if (campo === 'Frecuencia') parsed.frecuencia = translateFrequency(valor);
       else if (campo === 'Cuotas') parsed.cuotas = valor;
     } else {
       // Contenido libre
@@ -98,6 +103,96 @@ function parseMessageToHTML(mensaje: string): any {
   }
 
   return parsed;
+}
+
+// Funciones de traducción
+function translateCommunicationMethod(method: string): string {
+  const translations: { [key: string]: string } = {
+    'email': 'Correo electrónico',
+    'whatsapp': 'WhatsApp',
+    'video': 'Videollamada',
+    'phone': 'Teléfono',
+    'advance-60': 'Aviso con 60 días de anticipación'
+  };
+  return translations[method] || method;
+}
+
+function translatePaymentMethod(method: string): string {
+  const translations: { [key: string]: string } = {
+    'transfer': 'Transferencia bancaria',
+    'installments': 'Cuotas/Financiamiento',
+    'cash': 'Efectivo',
+    'card': 'Tarjeta de crédito/débito'
+  };
+  return translations[method] || method;
+}
+
+function translateSchedule(schedule: string): string {
+  const translations: { [key: string]: string } = {
+    'morning': 'Mañana (9:00-12:00)',
+    'afternoon': 'Tarde (13:00-17:00)',
+    'evening': 'Noche (18:00-21:00)',
+    'flexible': 'Horario flexible'
+  };
+  return translations[schedule] || schedule;
+}
+
+function translateFrequency(frequency: string): string {
+  const translations: { [key: string]: string } = {
+    'daily': 'Diaria',
+    'weekly': 'Semanal', 
+    'biweekly': 'Quincenal',
+    'monthly': 'Mensual',
+    'as-needed': 'Según sea necesario'
+  };
+  return translations[frequency] || frequency;
+}
+
+// Función para convertir JSON de especificaciones a HTML legible
+function formatSpecificationsToHTML(especificaciones: string): string {
+  try {
+    const jsonData = JSON.parse(especificaciones.trim());
+    
+    // Mapeo de nombres de campos en inglés a español
+    const fieldTranslations: { [key: string]: string } = {
+      // Logo specifications
+      'emotions': 'Emociones/Sensaciones',
+      'colors': 'Colores preferidos',
+      'useCases': 'Casos de uso',
+      'revisions': 'Revisiones incluidas',
+      
+      // Subscription specifications
+      'subscriptionPlan': 'Plan de suscripción',
+      'monthlyNeeds': 'Necesidades mensuales',
+      
+      // Website specifications
+      'pages': 'Páginas',
+      'features': 'Características',
+      'hosting': 'Hosting incluido',
+      
+      // Visual Identity specifications
+      'elements': 'Elementos incluidos',
+      'applications': 'Aplicaciones',
+      'brandGuidelines': 'Guía de marca',
+      
+      // Graphic Assets specifications
+      'assetTypes': 'Tipos de activos',
+      'formats': 'Formatos',
+      'usage': 'Uso previsto'
+    };
+
+    // Generar HTML para cada campo
+    let htmlOutput = '';
+    for (const [key, value] of Object.entries(jsonData)) {
+      const fieldName = fieldTranslations[key] || key;
+      htmlOutput += `<div class="field"><strong>${fieldName}:</strong><span>${value}</span></div>`;
+    }
+    
+    return htmlOutput;
+  } catch (e) {
+    // Si no es JSON válido, mostrar como texto plano
+    return `<div class="field">${especificaciones.trim()}</div>`;
+  }
 }
 
 function generateHTMLEmailContent(formData: FormData) {
@@ -162,7 +257,7 @@ function generateHTMLEmailContent(formData: FormData) {
         .section h2 {
             font-family: 'Rubik', sans-serif;
             font-weight: 700;
-            color: #181818;
+            color: #052210;
             margin: 0 0 15px 0;
             font-size: 18px;
         }
@@ -173,7 +268,7 @@ function generateHTMLEmailContent(formData: FormData) {
         }
         .field strong {
             font-weight: 700;
-            color: #181818;
+            color: #052210;
             min-width: 140px;
             margin-right: 10px;
         }
@@ -192,16 +287,17 @@ function generateHTMLEmailContent(formData: FormData) {
             font-weight: 700;
         }
         .description-box {
-            background: #f0f8ff;
-            border-left: 4px solid #007acc;
+            background: #f8fdf0;
+            border-left: 4px solid #BFE220;
             padding: 20px;
             border-radius: 8px;
             margin: 20px 0;
         }
         .description-box h3 {
             margin: 0 0 15px 0;
-            color: #007acc;
+            color: #052210;
             font-size: 16px;
+            font-weight: 700;
         }
         .description-text {
             background: white;
@@ -264,9 +360,9 @@ function generateHTMLEmailContent(formData: FormData) {
             </div>
 
             ${parsedData.especificaciones ? `
-            <div class="description-box">
-                <h3>⚙️ Especificaciones del Servicio</h3>
-                <div class="description-text"><pre style="margin: 0; font-family: 'Courier New', monospace; font-size: 12px; white-space: pre-wrap;">${parsedData.especificaciones.trim()}</pre></div>
+            <div class="section">
+                <h2>⚙️ Especificaciones del Servicio</h2>
+                ${formatSpecificationsToHTML(parsedData.especificaciones)}
             </div>
             ` : ''}
 
@@ -280,8 +376,8 @@ function generateHTMLEmailContent(formData: FormData) {
 
             <div class="section">
                 <h2>💳 Información de Pago</h2>
-                <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoPago || 'No especificado'}</span></div>
-                <div class="field"><strong>Cuotas:</strong><span>${parsedData.cuotas || 'No especificado'}</span></div>
+                <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoPago || (parsedData.cuotas ? 'Financiamiento en cuotas' : 'No especificado')}</span></div>
+                ${parsedData.cuotas ? `<div class="field"><strong>Cuotas:</strong><span>${parsedData.cuotas}</span></div>` : ''}
             </div>
 
             ${parsedData.comentarios && parsedData.comentarios.trim() !== 'Ninguno' ? `
@@ -327,7 +423,7 @@ export async function POST(request: NextRequest) {
 
     // Enviar email a UFFO Studios
     const result = await resend.emails.send({
-      from: 'UFFO Studios <somosuffo@gmail.com>',
+      from: 'UFFO Studios <onboarding@resend.dev>',
       to: ['somosuffo@gmail.com'],
       subject: `Nueva consulta de ${formData.nombre} - ${formData.servicio}`,
       html: htmlContent,

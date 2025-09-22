@@ -353,7 +353,7 @@ ${data.additionalComments || 'Ninguno'}
   ]
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/30 py-4 md:py-8 px-4">
+    <div className="min-h-screen bg-white py-4 md:py-8 px-4">
       <div className="max-w-4xl mx-auto">
         <div className="mb-4">
           <Button
@@ -364,19 +364,19 @@ ${data.additionalComments || 'Ninguno'}
                 window.location.href = "/"
               }
             }}
-            className="flex items-center space-x-2 text-muted-foreground hover:text-foreground touch-manipulation"
+            className="flex items-center space-x-2 text-gray-600 hover:text-[#BFE220] transition-colors touch-manipulation bg-transparent border-none"
           >
             <FaArrowLeft className="w-4 h-4" />
-            <span>Volver al sitio web</span>
+            <span className="font-medium">Volver al sitio web</span>
           </Button>
         </div>
 
         {/* Header */}
         <div className="text-center mb-6 md:mb-8">
-          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4 text-balance">
+          <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 mb-4 text-balance font-['Rubik',sans-serif]">
             Creemos Algo Increíble Juntos
           </h1>
-          <p className="text-base md:text-lg text-muted-foreground text-pretty">
+          <p className="text-base md:text-lg text-gray-600 text-pretty font-['Rubik',sans-serif] font-light">
             Cuéntanos sobre tu proyecto y te proporcionaremos una propuesta detallada
           </p>
         </div>
@@ -386,12 +386,17 @@ ${data.additionalComments || 'Ninguno'}
           {/* Mobile Progress Bar */}
           <div className="md:hidden mb-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-muted-foreground">
+              <span className="text-sm font-medium text-gray-600 font-['Rubik',sans-serif]">
                 Paso {currentStep} de {totalSteps}
               </span>
-              <span className="text-sm font-medium text-muted-foreground">{Math.round(progress)}% Completado</span>
+              <span className="text-sm font-medium text-[#BFE220] font-['Rubik',sans-serif]">{Math.round(progress)}% Completado</span>
             </div>
-            <Progress value={progress} className="h-2" />
+            <div className="w-full bg-gray-200 rounded-full h-2">
+              <div 
+                className="bg-gradient-to-r from-[#BFE220] to-[#a8cc1d] h-2 rounded-full transition-all duration-300 ease-out"
+                style={{ width: `${progress}%` }}
+              />
+            </div>
           </div>
 
           {/* Desktop Step Indicators */}
@@ -407,29 +412,29 @@ ${data.additionalComments || 'Ninguno'}
                   <button
                     onClick={() => goToStep(stepNumber)}
                     disabled={!isAccessible}
-                    className={`flex items-center space-x-3 p-2 rounded-lg transition-colors ${
-                      isAccessible ? "cursor-pointer hover:bg-muted/50" : "cursor-not-allowed opacity-50"
+                    className={`flex items-center space-x-3 p-3 rounded-xl transition-all duration-200 ${
+                      isAccessible ? "cursor-pointer hover:bg-gray-100" : "cursor-not-allowed opacity-50"
                     }`}
                   >
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${
+                      className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-200 font-['Rubik',sans-serif] ${
                         isCompleted
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-[#BFE220] text-[#181818] shadow-lg shadow-[#BFE220]/25"
                           : isActive
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-muted text-muted-foreground"
+                            ? "bg-[#BFE220] text-[#181818] shadow-lg shadow-[#BFE220]/25"
+                            : "bg-gray-200 text-gray-500 border border-gray-300"
                       }`}
                     >
                       {isCompleted ? "✓" : stepNumber}
                     </div>
                     <div className="text-left">
-                      <div className={`text-sm font-medium ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
+                      <div className={`text-sm font-medium font-['Rubik',sans-serif] ${isActive ? "text-gray-900" : "text-gray-600"}`}>
                         {title}
                       </div>
                     </div>
                   </button>
                   {index < stepTitles.length - 1 && (
-                    <div className={`flex-1 h-px mx-4 ${isCompleted ? "bg-primary" : "bg-border"}`} />
+                    <div className={`flex-1 h-0.5 mx-4 rounded-full transition-all duration-300 ${isCompleted ? "bg-[#BFE220]" : "bg-gray-300"}`} />
                   )}
                 </div>
               )
@@ -438,8 +443,8 @@ ${data.additionalComments || 'Ninguno'}
         </div>
 
         {/* Form Steps */}
-        <Card className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
-          <CardContent className="p-4 md:p-6 lg:p-8">
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-lg">
+          <div className="p-4 md:p-6 lg:p-8">
             {currentStep === 1 && (
               <ServiceSelection
                 selectedService={formData.selectedService}
@@ -465,18 +470,18 @@ ${data.additionalComments || 'Ninguno'}
             {currentStep === 4 && (
               <FinalStep formData={formData} onUpdate={updateFormData} onSubmit={handleSubmit} onPrev={prevStep} />
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
 
         {/* Mobile Navigation Bar */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-background/95 backdrop-blur-sm border-t border-border p-4">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-gray-200 p-4">
           <div className="flex justify-between items-center max-w-4xl mx-auto">
             <Button
               variant="outline"
               size="sm"
               onClick={prevStep}
               disabled={currentStep === 1}
-              className="flex items-center space-x-2 bg-transparent"
+              className="flex items-center space-x-2 bg-transparent border-gray-600 text-gray-300 hover:text-white hover:border-[#BFE220] font-['Rubik',sans-serif]"
             >
               <FaChevronLeft className="w-4 h-4" />
               <span>Atrás</span>
@@ -488,13 +493,13 @@ ${data.additionalComments || 'Ninguno'}
                 size="sm"
                 onClick={handleSave}
                 disabled={isSaving}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 text-gray-400 hover:text-[#BFE220] font-['Rubik',sans-serif]"
               >
                 <FaSave className="w-4 h-4" />
                 <span>{isSaving ? "Guardando..." : "Guardar"}</span>
               </Button>
 
-              <span className="text-sm text-muted-foreground">
+              <span className="text-sm text-gray-400 font-['Rubik',sans-serif]">
                 {currentStep}/{totalSteps}
               </span>
             </div>
@@ -503,7 +508,7 @@ ${data.additionalComments || 'Ninguno'}
               size="sm"
               onClick={currentStep === totalSteps ? handleSubmit : nextStep}
               disabled={!isCurrentStepValid()}
-              className="flex items-center space-x-2"
+              className="flex items-center space-x-2 bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-bold font-['Rubik',sans-serif] transition-all duration-200"
             >
               <span>{currentStep === totalSteps ? "Enviar" : "Siguiente"}</span>
               {currentStep !== totalSteps && <FaChevronRight className="w-4 h-4" />}
@@ -516,7 +521,7 @@ ${data.additionalComments || 'Ninguno'}
 
         {/* Keyboard Navigation Hint */}
         <div className="hidden md:block text-center mt-6">
-          <p className="text-xs text-muted-foreground">Usa las teclas ← → para navegar entre pasos</p>
+          <p className="text-xs text-gray-500 font-['Rubik',sans-serif]">Usa las teclas ← → para navegar entre pasos</p>
         </div>
       </div>
     </div>

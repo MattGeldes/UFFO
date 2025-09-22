@@ -11,6 +11,170 @@ interface FormData {
   acepta_terminos: boolean;
 }
 
+// Función para parsear el mensaje de texto plano y convertirlo a HTML estructurado
+function parseMessageToHTML(mensaje: string): any {
+  const lines = mensaje.split('\n').filter(line => line.trim() !== '');
+  const parsed: any = {
+    serviceName: '',
+    empresa: '',
+    industria: '',
+    tiempoOperando: '',
+    ubicacion: '',
+    websiteRedes: '',
+    descripcionNegocio: '',
+    propuestaValor: '',
+    presupuesto: '',
+    timeline: '',
+    expectativas: '',
+    especificaciones: '',
+    responsableDecisiones: '',
+    metodoComunicacion: '',
+    horario: '',
+    frecuencia: '',
+    metodoPago: '',
+    cuotas: '',
+    comentarios: ''
+  };
+
+  let currentSection = '';
+
+  for (const line of lines) {
+    const trimmedLine = line.trim();
+    
+    if (trimmedLine.startsWith('CONSULTA DE ')) {
+      parsed.serviceName = trimmedLine.replace('CONSULTA DE ', '');
+    } else if (trimmedLine === 'INFORMACIÓN DE LA EMPRESA:') {
+      currentSection = 'empresa';
+    } else if (trimmedLine === 'DESCRIPCIÓN DEL NEGOCIO:') {
+      currentSection = 'descripcion';
+    } else if (trimmedLine === 'PROPUESTA ÚNICA DE VALOR:') {
+      currentSection = 'propuesta';
+    } else if (trimmedLine === 'DETALLES DEL PROYECTO:') {
+      currentSection = 'detalles';
+    } else if (trimmedLine === 'ESPECIFICACIONES DEL SERVICIO:') {
+      currentSection = 'especificaciones';
+    } else if (trimmedLine === 'COMUNICACIÓN:') {
+      currentSection = 'comunicacion';
+    } else if (trimmedLine === 'INFORMACIÓN DE PAGO:') {
+      currentSection = 'pago';
+    } else if (trimmedLine === 'COMENTARIOS ADICIONALES:') {
+      currentSection = 'comentarios';
+    } else if (trimmedLine.startsWith('- ')) {
+      // Campo con formato "- Campo: Valor"
+      const [campo, ...valorParts] = trimmedLine.substring(2).split(': ');
+      const valor = valorParts.join(': ');
+      
+      if (campo === 'Empresa') parsed.empresa = valor;
+      else if (campo === 'Industria') parsed.industria = valor;
+      else if (campo === 'Tiempo operando') parsed.tiempoOperando = valor;
+      else if (campo === 'Ubicación') parsed.ubicacion = valor;
+      else if (campo === 'Website/Redes') parsed.websiteRedes = valor;
+      else if (campo === 'Presupuesto') parsed.presupuesto = valor;
+      else if (campo === 'Timeline') parsed.timeline = valor;
+      else if (campo === 'Expectativas de diseño') parsed.expectativas = valor;
+      else if (campo === 'Responsable de decisiones') parsed.responsableDecisiones = valor;
+      else if (campo === 'Método preferido') {
+        if (currentSection === 'comunicacion') {
+          parsed.metodoComunicacion = translateCommunicationMethod(valor);
+        } else if (currentSection === 'pago') {
+          parsed.metodoPago = translatePaymentMethod(valor);
+        }
+      }
+      else if (campo === 'Horario') parsed.horario = translateSchedule(valor);
+      else if (campo === 'Frecuencia') parsed.frecuencia = translateFrequency(valor);
+      else if (campo === 'Cuotas') parsed.cuotas = valor;
+    } else {
+      // Contenido libre
+      if (currentSection === 'descripcion') {
+        parsed.descripcionNegocio += trimmedLine + ' ';
+      } else if (currentSection === 'propuesta') {
+        parsed.propuestaValor += trimmedLine + ' ';
+      } else if (currentSection === 'especificaciones') {
+        parsed.especificaciones += trimmedLine + '\n';
+      } else if (currentSection === 'comentarios') {
+        parsed.comentarios += trimmedLine + ' ';
+      }
+    }
+  }
+
+  return parsed;
+}
+
+function translateCommunicationMethod(method: string): string {
+  const translations: Record<string, string> = {
+    'email': 'Correo electrónico',
+    'phone': 'Llamadas telefónicas',
+    'video': 'Videollamadas',
+    'whatsapp': 'WhatsApp',
+    'mixed': 'Combinación de métodos'
+  };
+  return translations[method] || method;
+}
+
+function translateSchedule(schedule: string): string {
+  const translations: Record<string, string> = {
+    'morning': 'Mañana (9:00-12:00)',
+    'afternoon': 'Tarde (13:00-18:00)',
+    'evening': 'Noche (19:00-21:00)',
+    'flexible': 'Horario flexible'
+  };
+  return translations[schedule] || schedule;
+}
+
+function translateFrequency(frequency: string): string {
+  const translations: Record<string, string> = {
+    'daily': 'Diariamente',
+    'weekly': 'Semanalmente',
+    'biweekly': 'Cada dos semanas',
+    'monthly': 'Mensualmente',
+    'as-needed': 'Según sea necesario'
+  };
+  return translations[frequency] || frequency;
+}
+
+function translatePaymentMethod(method: string): string {
+  const translations: Record<string, string> = {
+    'bank-transfer': 'Transferencia bancaria',
+    'cash': 'Efectivo',
+    'check': 'Cheque',
+    'installments': 'Financiamiento en cuotas',
+    'full-discount': 'Pago completo con descuento'
+  };
+  return translations[method] || method;
+}
+
+function formatSpecificationsToHTML(specs: string): string {
+  try {
+    // Intentar parsear como JSON si es válido
+    if (specs.trim().startsWith('{')) {
+      const jsonData = JSON.parse(specs);
+      let html = '<div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0;">';
+      
+      for (const [key, value] of Object.entries(jsonData)) {
+        const translatedKey = translateSpecKey(key);
+        html += `<div style="margin-bottom: 8px;"><strong style="color: #052210;">${translatedKey}:</strong> <span style="color: #333;">${value}</span></div>`;
+      }
+      
+      html += '</div>';
+      return html;
+    }
+  } catch (e) {
+    // Si no es JSON válido, mostrar como texto
+  }
+  
+  return `<div style="background: white; padding: 15px; border-radius: 6px; border: 1px solid #e0e0e0; font-size: 14px; line-height: 1.6;">${specs.replace(/\n/g, '<br>')}</div>`;
+}
+
+function translateSpecKey(key: string): string {
+  const translations: Record<string, string> = {
+    'subscriptionPlan': 'Plan de suscripción',
+    'monthlyNeeds': 'Necesidades mensuales',
+    'references': 'Referencias',
+    'priorities': 'Prioridades'
+  };
+  return translations[key] || key;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const formData: FormData = await request.json();

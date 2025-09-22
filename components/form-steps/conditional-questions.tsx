@@ -4,7 +4,6 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import type { ServiceType } from "../design-form"
 import { FaArrowLeft, FaCheck } from "react-icons/fa"
@@ -129,71 +128,87 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
     return (
       <div className="space-y-6">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-foreground mb-2">Planes de Suscripción Mensual</h2>
-          <p className="text-muted-foreground">Elige el plan que mejor se adapte a tus necesidades de diseño</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2 font-['Rubik',sans-serif]">Planes de Suscripción Mensual</h2>
+          <p className="text-gray-600 font-['Rubik',sans-serif] font-light">Elige el plan que mejor se adapte a tus necesidades de diseño</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {subscriptionPlans.map((plan) => (
-            <Card
+            <div
               key={plan.id}
-              className={`cursor-pointer transition-all duration-200 hover:shadow-lg border-2 relative min-h-[400px] flex flex-col ${
-                plan.popular ? "border-primary bg-primary/5" : "border-border"
+              className={`cursor-pointer transition-all duration-300 transform hover:scale-[1.02] border-2 relative min-h-[400px] flex flex-col rounded-2xl animate-fade-in ${
+                plan.popular 
+                  ? "bg-gradient-to-br from-[#BFE220]/10 to-[#BFE220]/5 border-[#BFE220] ring-4 ring-[#BFE220]/20 shadow-xl shadow-[#BFE220]/25" 
+                  : "bg-white border-gray-300 hover:shadow-lg"
               } ${
                 answers.subscriptionPlan === plan.id
-                  ? "border-primary bg-primary/5 shadow-lg"
-                  : "hover:border-primary/50"
+                  ? "border-[#BFE220] bg-[#BFE220]/15 shadow-xl shadow-[#BFE220]/30 scale-[1.02] ring-2 ring-[#BFE220]/30"
+                  : "hover:border-gray-400"
               }`}
               onClick={() => updateAnswer("subscriptionPlan", plan.id)}
             >
               {plan.popular && (
-                <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                  <span className="bg-primary text-primary-foreground px-3 py-1 rounded-full text-xs font-medium">
-                    Más Popular
+                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2 z-10">
+                  <span className="bg-gradient-to-r from-[#BFE220] to-[#a8cc1d] text-[#181818] px-4 py-2 rounded-full text-sm font-bold shadow-lg ring-2 ring-white font-['Rubik',sans-serif] whitespace-nowrap">
+                    ⭐ Más Popular
                   </span>
                 </div>
               )}
-              <CardHeader className="text-center pb-4">
-                <CardTitle className="text-xl">{plan.name}</CardTitle>
-                <div className="text-3xl font-bold text-foreground">{plan.price}</div>
-                <p className="text-sm text-muted-foreground">{plan.description}</p>
-              </CardHeader>
-              <CardContent className="flex-1 flex flex-col justify-between">
+              <div className="text-center pb-4 p-6">
+                <h3 className="text-xl font-bold text-gray-900 font-['Rubik',sans-serif]">{plan.name}</h3>
+                <div className="text-3xl font-bold text-[#BFE220] font-['Rubik',sans-serif]">{plan.price}</div>
+                <p className="text-sm text-gray-600 font-['Rubik',sans-serif] font-light">{plan.description}</p>
+              </div>
+              <div className="flex-1 flex flex-col justify-between p-6 pt-0">
                 <ul className="space-y-2">
                   {plan.features.map((feature, index) => (
                     <li key={index} className="flex items-start space-x-2">
-                      <FaCheck className="w-4 h-4 text-primary mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">{feature}</span>
+                      <FaCheck className="w-4 h-4 text-[#BFE220] mt-0.5 flex-shrink-0" />
+                      <span className="text-sm text-gray-600 font-['Rubik',sans-serif] font-light">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 {answers.subscriptionPlan === plan.id && (
                   <div className="mt-4 flex justify-center">
-                    <div className="w-6 h-6 bg-primary rounded-full flex items-center justify-center">
-                      <FaCheck className="w-4 h-4 text-white" />
+                    <div className="w-6 h-6 bg-[#BFE220] rounded-full flex items-center justify-center">
+                      <FaCheck className="w-4 h-4 text-[#181818]" />
                     </div>
                   </div>
                 )}
-              </CardContent>
-            </Card>
+              </div>
+            </div>
           ))}
         </div>
-        {errors.subscriptionPlan && <p className="text-sm text-destructive text-center">{errors.subscriptionPlan}</p>}
+        {errors.subscriptionPlan && <p className="text-sm text-red-400 text-center font-['Rubik',sans-serif]">{errors.subscriptionPlan}</p>}
 
-        <div className="bg-muted/50 p-6 rounded-lg space-y-3">
-          <h3 className="font-semibold text-foreground mb-3">Información importante:</h3>
-          <div className="space-y-2 text-sm text-muted-foreground">
-            <p>
-              • <strong>Logo:</strong> Debe ser proporcionado por el cliente en formato vectorial (AI, SVG, EPS). En
-              caso contrario, se cobrará un redibujo adicional.
+        <div className="bg-gradient-to-r from-amber-50 to-yellow-50 p-4 rounded-lg border-l-4 border-amber-400 shadow-sm mt-6">
+          <h3 className="flex items-center font-medium text-amber-800 mb-3 font-['Rubik',sans-serif] text-sm">
+            <div className="w-4 h-4 bg-amber-500 rounded-full flex items-center justify-center mr-2">
+              <span className="text-white text-xs">⚠</span>
+            </div>
+            Información importante:
+          </h3>
+          <div className="space-y-2 text-amber-700 font-['Rubik',sans-serif] leading-relaxed text-xs">
+            <p className="flex items-start">
+              <span className="text-amber-500 mr-2 mt-0.5 text-xs">•</span>
+              <span>
+                <strong className="text-amber-800">Logo:</strong> Debe ser proporcionado por el cliente en formato vectorial (AI, SVG, EPS). En
+                caso contrario, se cobrará un redibujo adicional.
+              </span>
             </p>
-            <p>
-              • <strong>Fotografías:</strong> Este presupuesto no contempla fotografías. Deben ser proporcionadas por el
-              cliente o solicitar cotización adicional.
+            <p className="flex items-start">
+              <span className="text-amber-500 mr-2 mt-0.5 text-xs">•</span>
+              <span>
+                <strong className="text-amber-800">Fotografías:</strong> Este presupuesto no contempla fotografías. Deben ser proporcionadas por el
+                cliente o solicitar cotización adicional.
+              </span>
             </p>
-            <p>
-              • <strong>Formatos de entrega:</strong> Solo se entregan archivos en PNG, JPG y PDF. No se incluyen
-              archivos vectoriales editables.
+            <p className="flex items-start">
+              <span className="text-amber-500 mr-2 mt-0.5 text-xs">•</span>
+              <span>
+                <strong className="text-amber-800">Formatos de entrega:</strong> Solo se entregan archivos en PNG, JPG y PDF. No se incluyen
+                archivos vectoriales editables.
+              </span>
             </p>
           </div>
         </div>
@@ -567,11 +582,20 @@ export function ConditionalQuestions({ serviceType, answers, onUpdate, onNext, o
       {renderQuestions()}
 
       <div className="flex justify-between pt-6">
-        <Button variant="outline" onClick={onPrev} size="lg" className="min-w-[120px] bg-transparent">
+        <Button 
+          variant="outline" 
+          onClick={onPrev} 
+          size="lg" 
+          className="min-w-[120px] bg-transparent border-gray-600 text-gray-900 hover:bg-white hover:border-gray-500 font-['Rubik',sans-serif]"
+        >
           <FaArrowLeft className="w-4 h-4 mr-2" />
           Atrás
         </Button>
-        <Button onClick={handleNext} size="lg" className="min-w-[120px]">
+        <Button 
+          onClick={handleNext} 
+          size="lg" 
+          className="min-w-[120px] bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-bold font-['Rubik',sans-serif]"
+        >
           Continuar
         </Button>
       </div>

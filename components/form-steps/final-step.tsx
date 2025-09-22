@@ -114,30 +114,30 @@ export function FinalStep({ formData, onUpdate, onSubmit, onPrev }: FinalStepPro
   }
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-2xl font-bold text-foreground mb-2">Revisar y Enviar</h2>
-        <p className="text-muted-foreground">Por favor revisa tu información y agrega cualquier comentario final</p>
+    <div className="space-y-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-700">
+      <div className="text-center animate-in fade-in-50 slide-in-from-top-4 duration-500 delay-150">
+        <h2 className="text-2xl font-bold text-gray-900 mb-2 font-['Rubik',sans-serif]">Revisar y Enviar</h2>
+        <p className="text-gray-600 font-['Rubik',sans-serif] font-light">Por favor revisa tu información y agrega cualquier comentario final</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="bg-black border-gray-800">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-in fade-in-50 slide-in-from-bottom-4 duration-700 delay-300">
+        <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-[#BFE220]">Servicio Seleccionado</CardTitle>
+            <CardTitle className="text-lg text-gray-900 font-['Rubik',sans-serif]">Servicio Seleccionado</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-medium text-[#BFE220]">
+            <p className="font-medium text-[#BFE220] font-['Rubik',sans-serif]">
               {formData.selectedService ? getServiceTitle(formData.selectedService) : "No seleccionado"}
             </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="bg-white border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-300">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg">Empresa</CardTitle>
+            <CardTitle className="text-lg text-gray-900 font-['Rubik',sans-serif]">Empresa</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-medium">{formData.companyName || "No proporcionado"}</p>
+            <p className="font-medium text-gray-900 font-['Rubik',sans-serif]">{formData.companyName || "No proporcionado"}</p>
             <p className="text-sm text-muted-foreground">{formData.industry || "Industria no especificada"}</p>
           </CardContent>
         </Card>
@@ -323,21 +323,26 @@ export function FinalStep({ formData, onUpdate, onSubmit, onPrev }: FinalStepPro
         {errors.consent && <p className="text-sm text-destructive">{errors.consent}</p>}
       </div>
 
-      <div className="flex justify-between pt-6">
+      <div className="flex justify-between pt-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-500 delay-500">
         <Button
           variant="outline"
           onClick={onPrev}
           size="lg"
-          className="min-w-[120px] bg-transparent"
+          className="min-w-[120px] bg-transparent border-gray-300 text-gray-900 hover:bg-gray-100 hover:border-gray-400 font-['Rubik',sans-serif] transition-all duration-300 hover:shadow-md transform hover:scale-105"
           disabled={isSubmitting}
         >
           <FaArrowLeft className="w-4 h-4 mr-2" />
           Atrás
         </Button>
-        <Button onClick={handleSubmit} size="lg" className="min-w-[200px]" disabled={isSubmitting}>
+        <Button 
+          onClick={handleSubmit} 
+          size="lg" 
+          className="min-w-[200px] bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-bold font-['Rubik',sans-serif] transition-all duration-300 hover:shadow-lg transform hover:scale-105" 
+          disabled={isSubmitting}
+        >
           {isSubmitting ? (
             <>
-              <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+              <div className="w-4 h-4 border-2 border-[#181818] border-t-transparent rounded-full animate-spin mr-2" />
               Procesando...
             </>
           ) : (
