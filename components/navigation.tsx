@@ -65,13 +65,20 @@ export default function Navigation() {
         >
           <Link
             href="/"
-            className="flex items-center"
+            className="flex items-center space-x-2"
             onClick={() => {
               window.scrollTo({ top: 0, behavior: "smooth" })
               setIsOpen(false)
             }}
           >
-            <Image src="/logo-uffo.svg" alt="UFFO Studios" width={40} height={40} className="w-8 h-8 sm:w-10 sm:h-10" />
+            <Image 
+              src="/logo-uffo.svg" 
+              alt="UFFO Studios" 
+              width={48} 
+              height={48} 
+              className="w-10 h-10 sm:w-12 sm:h-12" 
+            />
+            <span className="font-bold text-white text-lg sm:text-xl">UFFO Studios</span>
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
