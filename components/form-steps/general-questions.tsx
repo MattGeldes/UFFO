@@ -1,11 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { PostalCodeLocation } from "@/components/ui/postal-code-location"
 import type { FormData } from "../design-form"
 import { FaArrowLeft } from "react-icons/fa"
 
@@ -71,11 +73,9 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
     if (!formData.contactSchedule) newErrors.contactSchedule = "El horario de contacto es requerido"
     if (!formData.contactFrequency) newErrors.contactFrequency = "La frecuencia de contacto es requerida"
 
-    if (!formData.businessLocation.trim()) newErrors.businessLocation = "La ubicación del negocio es requerida"
-    if (!formData.city.trim()) newErrors.city = "La ciudad/localidad es requerida"
-    if (formData.businessLocation === "argentina" && !formData.province.trim()) {
-      newErrors.province = "La provincia es requerida"
-    }
+    // Validación de ubicación (simplificada ya que el componente PostalCodeLocation maneja la lógica)
+    if (!formData.city.trim()) newErrors.city = "La ciudad es requerida"
+    if (!formData.province.trim()) newErrors.province = "La provincia/estado es requerida"
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -94,6 +94,25 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
       setErrors((prev) => ({ ...prev, [field]: "" }))
     }
   }
+
+  // Memoized function to prevent infinite re-renders
+  const handleLocationChange = useCallback((location: any) => {
+    // Actualizar los campos del formulario con la ubicación detectada/manual
+    handleInputChange("city", location.city)
+    handleInputChange("province", location.state)
+    handleInputChange("businessLocation", location.country === "Argentina" ? "argentina" : "abroad")
+    
+    // Si hay código postal, guardarlo también
+    if (location.postalCode) {
+      // Agregar código postal al FormData si no existe
+      onUpdate({ 
+        city: location.city,
+        province: location.state,
+        businessLocation: location.country === "Argentina" ? "argentina" : "abroad",
+        postalCode: location.postalCode
+      })
+    }
+  }, [onUpdate])
 
   return (
     <div className="space-y-6">
@@ -266,13 +285,24 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
           <Label htmlFor="deadline" className="text-sm font-medium">
             Fecha Límite / Fecha de Entrega Esperada *
           </Label>
-          <Input
-            id="deadline"
+          <Select
             value={formData.deadline}
-            onChange={(e) => handleInputChange("deadline", e.target.value)}
-            placeholder="ej. Fin de Marzo, Lo antes posible, Flexible"
-            className={`h-12 ${errors.deadline ? "border-destructive" : ""}`}
-          />
+            onValueChange={(value) => handleInputChange("deadline", value)}
+          >
+            <SelectTrigger className={`h-12 ${errors.deadline ? "border-destructive" : ""}`}>
+              <SelectValue placeholder="Selecciona el tiempo de entrega" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="5-7-dias">5 a 7 días</SelectItem>
+              <SelectItem value="10-dias">10 días</SelectItem>
+              <SelectItem value="15-dias">15 días</SelectItem>
+              <SelectItem value="1-mes">1 mes</SelectItem>
+              <SelectItem value="1-5-meses">1 a 2 meses</SelectItem>
+              <SelectItem value="2-3-meses">2 a 3 meses</SelectItem>
+              <SelectItem value="flexible">Flexible</SelectItem>
+              <SelectItem value="lo-antes-posible">Lo antes posible</SelectItem>
+            </SelectContent>
+          </Select>
           {errors.deadline && <p className="text-sm text-destructive">{errors.deadline}</p>}
         </div>
 
@@ -291,90 +321,17 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
           {errors.decisionMaker && <p className="text-sm text-destructive">{errors.decisionMaker}</p>}
         </div>
 
-        {/* Business Location */}
-        <div className="space-y-2">
-          <Label htmlFor="businessLocation" className="text-sm font-medium">
-            Ubicación del Negocio *
-          </Label>
-          <Select
-            value={formData.businessLocation}
-            onValueChange={(value) => {
-              handleInputChange("businessLocation", value)
-              // Clear province and city when changing location
-              if (value !== "argentina") {
-                handleInputChange("province", "")
-              }
+        {/* Business Location with Postal Code Lookup */}
+        <div className="md:col-span-2">
+          <PostalCodeLocation
+            onLocationChange={handleLocationChange}
+            initialValues={{
+              postalCode: (formData as any).postalCode || "",
+              city: formData.city,
+              state: formData.province,
+              country: formData.businessLocation === "argentina" ? "Argentina" : ""
             }}
-          >
-            <SelectTrigger className={`h-12 ${errors.businessLocation ? "border-destructive" : ""}`}>
-              <SelectValue placeholder="Selecciona ubicación" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="argentina">Argentina</SelectItem>
-              <SelectItem value="abroad">En el extranjero</SelectItem>
-            </SelectContent>
-          </Select>
-          {errors.businessLocation && <p className="text-sm text-destructive">{errors.businessLocation}</p>}
-        </div>
-
-        {/* Province (only for Argentina) */}
-        {formData.businessLocation === "argentina" && (
-          <div className="space-y-2">
-            <Label htmlFor="province" className="text-sm font-medium">
-              Provincia *
-            </Label>
-            <Select value={formData.province} onValueChange={(value) => handleInputChange("province", value)}>
-              <SelectTrigger className={`h-12 ${errors.province ? "border-destructive" : ""}`}>
-                <SelectValue placeholder="Selecciona provincia" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="buenos-aires">Buenos Aires</SelectItem>
-                <SelectItem value="catamarca">Catamarca</SelectItem>
-                <SelectItem value="chaco">Chaco</SelectItem>
-                <SelectItem value="chubut">Chubut</SelectItem>
-                <SelectItem value="cordoba">Córdoba</SelectItem>
-                <SelectItem value="corrientes">Corrientes</SelectItem>
-                <SelectItem value="entre-rios">Entre Ríos</SelectItem>
-                <SelectItem value="formosa">Formosa</SelectItem>
-                <SelectItem value="jujuy">Jujuy</SelectItem>
-                <SelectItem value="la-pampa">La Pampa</SelectItem>
-                <SelectItem value="la-rioja">La Rioja</SelectItem>
-                <SelectItem value="mendoza">Mendoza</SelectItem>
-                <SelectItem value="misiones">Misiones</SelectItem>
-                <SelectItem value="neuquen">Neuquén</SelectItem>
-                <SelectItem value="rio-negro">Río Negro</SelectItem>
-                <SelectItem value="salta">Salta</SelectItem>
-                <SelectItem value="san-juan">San Juan</SelectItem>
-                <SelectItem value="san-luis">San Luis</SelectItem>
-                <SelectItem value="santa-cruz">Santa Cruz</SelectItem>
-                <SelectItem value="santa-fe">Santa Fe</SelectItem>
-                <SelectItem value="santiago-del-estero">Santiago del Estero</SelectItem>
-                <SelectItem value="tierra-del-fuego">Tierra del Fuego</SelectItem>
-                <SelectItem value="tucuman">Tucumán</SelectItem>
-                <SelectItem value="caba">Ciudad Autónoma de Buenos Aires</SelectItem>
-              </SelectContent>
-            </Select>
-            {errors.province && <p className="text-sm text-destructive">{errors.province}</p>}
-          </div>
-        )}
-
-        {/* City */}
-        <div className="space-y-2">
-          <Label htmlFor="city" className="text-sm font-medium">
-            {formData.businessLocation === "argentina" ? "Localidad *" : "Ciudad/País *"}
-          </Label>
-          <Input
-            id="city"
-            value={formData.city}
-            onChange={(e) => handleInputChange("city", e.target.value)}
-            placeholder={
-              formData.businessLocation === "argentina"
-                ? "ej. San Rafael, Rosario, La Plata"
-                : "ej. Madrid, España / New York, USA"
-            }
-            className={`h-12 ${errors.city ? "border-destructive" : ""}`}
           />
-          {errors.city && <p className="text-sm text-destructive">{errors.city}</p>}
         </div>
 
         {/* Communication Method */}

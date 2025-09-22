@@ -9,8 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Captcha } from "@/components/captcha"
 import type { FormData } from "../design-form"
-import { ArrowLeft, Send, MessageCircle } from "lucide-react"
-import emailjs from "@emailjs/browser"
+import { FaArrowLeft, FaPaperPlane, FaComments } from "react-icons/fa"
 
 interface FinalStepProps {
   formData: FormData
@@ -48,58 +47,10 @@ export function FinalStep({ formData, onUpdate, onSubmit, onPrev }: FinalStepPro
 
     setIsSubmitting(true)
     try {
-      const pdfContent = generateMockPDF(formData)
-      const plainTextContent = generatePlainTextContent(formData)
-
-      emailjs.init("Q8YNdJxRGmnBeMN0i")
-
-      const templateParams = {
-        to_email: "somosuffo@gmail.com",
-        subject: `Consulta ${getServiceName(formData.selectedService)} - ${formData.companyName}`,
-        company_name: formData.companyName,
-        contact_name: formData.contactName,
-        contact_email: formData.email,
-        contact_phone: formData.phone,
-        service_type: getServiceName(formData.selectedService),
-        message: plainTextContent,
-        pdf_attachment: pdfContent,
-        submission_date: new Date().toLocaleDateString("es-ES", {
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        }),
-        industry: formData.industry,
-        budget: formData.budget || "No especificado",
-        deadline: formData.deadline,
-        company_description: formData.companyDescription,
-        unique_selling_point: formData.uniqueSellingPoint,
-        decision_maker: formData.decisionMaker,
-        communication_method: formData.communicationMethod,
-        contact_schedule: formData.contactSchedule,
-        design_expectations: formData.designExpectations,
-        additional_comments: formData.additionalComments || "Ninguno",
-        payment_preference: formData.paymentPreference,
-        payment_installments: formData.paymentInstallments,
-      }
-
-      await emailjs.send("service_3ybd176", "template_z10n5b8", templateParams)
-
-      const pdfBlob = new Blob([Uint8Array.from(atob(pdfContent), (c) => c.charCodeAt(0))], {
-        type: "application/pdf",
-      })
-      const url = URL.createObjectURL(pdfBlob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = `propuesta-${formData.companyName?.replace(/\s+/g, "-").toLowerCase()}-${Date.now()}.pdf`
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      URL.revokeObjectURL(url)
-
-      onSubmit()
+      // Usar la función onSubmit del componente padre que tiene la lógica correcta
+      await onSubmit()
     } catch (error) {
       console.error("Error enviando formulario:", error)
-      alert("Hubo un error procesando tu formulario. Por favor intenta de nuevo.")
     } finally {
       setIsSubmitting(false)
     }
@@ -112,198 +63,20 @@ export function FinalStep({ formData, onUpdate, onSubmit, onPrev }: FinalStepPro
     }
   }
 
-  const getServiceName = (serviceType: string): string => {
-    const serviceNames = {
+  const getServiceName = (serviceType: string | null): string => {
+    if (!serviceType) return "Servicio no especificado"
+    
+    const serviceNames: Record<string, string> = {
       subscription: "Suscripción Mensual",
       logo: "Diseño de Logo",
       "visual-identity": "Identidad Visual",
       website: "Diseño de Sitio Web",
+      "graphic-assets": "Activos Gráficos",
     }
     return serviceNames[serviceType] || serviceType
   }
 
-  const generatePlainTextContent = (formData: any): string => {
-    const currentDate = new Date().toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
 
-    return `
-NUEVA SOLICITUD DE PRESUPUESTO - ${currentDate}
-
-═══════════════════════════════════════════════════════════════
-INFORMACIÓN DE LA EMPRESA
-═══════════════════════════════════════════════════════════════
-
-Empresa: ${formData.companyName}
-Contacto: ${formData.contactName}
-Email: ${formData.email}
-Teléfono: ${formData.phone}
-Industria: ${formData.industry}
-Sitio Web/Redes: ${formData.websiteOrSocial || "No especificado"}
-
-Ubicación: ${
-      formData.businessLocation === "argentina" ? `${formData.city}, ${formData.province}, Argentina` : formData.city
-    }
-
-═══════════════════════════════════════════════════════════════
-DESCRIPCIÓN DEL NEGOCIO
-═══════════════════════════════════════════════════════════════
-
-${formData.companyDescription}
-
-Tiempo Operando: ${formData.operatingTime}
-
-Propuesta Única de Valor:
-${formData.uniqueSellingPoint}
-
-═══════════════════════════════════════════════════════════════
-SERVICIO SOLICITADO
-═══════════════════════════════════════════════════════════════
-
-Servicio: ${getServiceName(formData.selectedService)}
-${formData.selectedService !== "subscription" ? `Presupuesto: ${formData.budget}` : ""}
-Fecha Límite: ${formData.deadline}
-
-═══════════════════════════════════════════════════════════════
-DETALLES DEL PROYECTO
-═══════════════════════════════════════════════════════════════
-
-${JSON.stringify(formData.conditionalAnswers, null, 2)}
-
-═══════════════════════════════════════════════════════════════
-COMUNICACIÓN Y PROCESO
-═══════════════════════════════════════════════════════════════
-
-Responsable de Decisiones: ${formData.decisionMaker}
-Método de Comunicación: ${formData.communicationMethod}
-Horario de Contacto: ${formData.contactSchedule}
-Frecuencia de Contacto: ${formData.contactFrequency}
-
-Expectativas de Diseño:
-${formData.designExpectations}
-
-═══════════════════════════════════════════════════════════════
-INFORMACIÓN ADICIONAL
-═══════════════════════════════════════════════════════════════
-
-Comentarios Adicionales:
-${formData.additionalComments || "Ninguno"}
-
-Preferencia de Pago: ${formData.paymentPreference}
-Cuotas: ${formData.paymentInstallments}
-
-═══════════════════════════════════════════════════════════════
-
-Solicitud generada automáticamente el ${currentDate}
-Para UFFO Studios - somosuffo@gmail.com
-    `
-  }
-
-  const utf8ToBase64 = (str: string): string => {
-    try {
-      const encoder = new TextEncoder()
-      const data = encoder.encode(str)
-      let binary = ""
-      for (let i = 0; i < data.length; i++) {
-        binary += String.fromCharCode(data[i])
-      }
-      return btoa(binary)
-    } catch (error) {
-      console.error("Error encoding to base64:", error)
-      const cleanStr = str.replace(/[^\x00-\x7F]/g, "?")
-      return btoa(cleanStr)
-    }
-  }
-
-  const generateMockPDF = (formData: any): string => {
-    const currentDate = new Date().toLocaleDateString("es-ES", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    })
-
-    const pdfContentText = `
-    ═══════════════════════════════════════════════════════════════
-    [LOGO UFFO]                                    ${currentDate}
-                              UFFO STUDIOS
-    ═══════════════════════════════════════════════════════════════
-    
-    PROPUESTA DE DISEÑO
-    
-    ═══════════════════════════════════════════════════════════════
-    INFORMACIÓN DE LA EMPRESA
-    ═══════════════════════════════════════════════════════════════
-    
-    Empresa: ${formData.companyName}
-    Contacto: ${formData.contactName}
-    Email: ${formData.email}
-    Teléfono: ${formData.phone}
-    Industria: ${formData.industry}
-    Sitio Web/Redes: ${formData.websiteOrSocial || "No especificado"}
-    
-    Ubicación: ${
-      formData.businessLocation === "argentina" ? `${formData.city}, ${formData.province}, Argentina` : formData.city
-    }
-    
-    ═══════════════════════════════════════════════════════════════
-    DESCRIPCIÓN DEL NEGOCIO
-    ═══════════════════════════════════════════════════════════════
-    
-    ${formData.companyDescription}
-    
-    Tiempo Operando: ${formData.operatingTime}
-    
-    Propuesta Única de Valor:
-    ${formData.uniqueSellingPoint}
-    
-    ═══════════════════════════════════════════════════════════════
-    SERVICIO SOLICITADO
-    ═══════════════════════════════════════════════════════════════
-    
-    Servicio: ${getServiceName(formData.selectedService)}
-    ${formData.selectedService !== "subscription" ? `Presupuesto: ${formData.budget}` : ""}
-    Fecha Límite: ${formData.deadline}
-    
-    ═══════════════════════════════════════════════════════════════
-    DETALLES DEL PROYECTO
-    ═══════════════════════════════════════════════════════════════
-    
-    ${JSON.stringify(formData.conditionalAnswers, null, 2)}
-    
-    ═══════════════════════════════════════════════════════════════
-    COMUNICACIÓN Y PROCESO
-    ═══════════════════════════════════════════════════════════════
-    
-    Responsable de Decisiones: ${formData.decisionMaker}
-    Método de Comunicación: ${formData.communicationMethod}
-    Horario de Contacto: ${formData.contactSchedule}
-    Frecuencia de Contacto: ${formData.contactFrequency}
-    
-    Expectativas de Diseño:
-    ${formData.designExpectations}
-    
-    ═══════════════════════════════════════════════════════════════
-    INFORMACIÓN ADICIONAL
-    ═══════════════════════════════════════════════════════════════
-    
-    Comentarios Adicionales:
-    ${formData.additionalComments || "Ninguno"}
-    
-    Preferencia de Pago: ${formData.paymentPreference}
-    Cuotas: ${formData.paymentInstallments}
-    
-    ═══════════════════════════════════════════════════════════════
-    
-    Este presupuesto fue generado automáticamente el ${currentDate}
-    Para UFFO Studios - somosuffo@gmail.com
-    
-    ═══════════════════════════════════════════════════════════════
-    `
-
-    return utf8ToBase64(pdfContentText)
-  }
 
   const getServiceTitle = (service: string) => {
     const titles = {
@@ -348,12 +121,12 @@ Para UFFO Studios - somosuffo@gmail.com
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <Card className="bg-black border-black">
+        <Card className="bg-black border-gray-800">
           <CardHeader className="pb-3">
-            <CardTitle className="text-lg text-white">Servicio Seleccionado</CardTitle>
+            <CardTitle className="text-lg text-[#BFE220]">Servicio Seleccionado</CardTitle>
           </CardHeader>
           <CardContent>
-            <p className="font-medium text-white">
+            <p className="font-medium text-[#BFE220]">
               {formData.selectedService ? getServiceTitle(formData.selectedService) : "No seleccionado"}
             </p>
           </CardContent>
@@ -405,7 +178,7 @@ Para UFFO Studios - somosuffo@gmail.com
           <CardHeader>
             <CardTitle className="text-lg flex items-center gap-2">
               <div className="p-2 rounded-lg bg-[#181818]">
-                <MessageCircle className="w-5 h-5 text-[#BFE220]" />
+                <FaComments className="w-5 h-5 text-[#BFE220]" />
               </div>
               Comunicación
             </CardTitle>
@@ -538,7 +311,7 @@ Para UFFO Studios - somosuffo@gmail.com
             className="mt-1"
           />
           <div className="space-y-1">
-            <Label htmlFor="consent" className="text-sm font-medium cursor-pointer">
+            <Label htmlFor="consent" className="text-sm font-medium cursor-pointer text-foreground">
               Autorizo el almacenamiento de mis respuestas únicamente para la propuesta *
             </Label>
             <p className="text-xs text-muted-foreground">
@@ -558,7 +331,7 @@ Para UFFO Studios - somosuffo@gmail.com
           className="min-w-[120px] bg-transparent"
           disabled={isSubmitting}
         >
-          <ArrowLeft className="w-4 h-4 mr-2" />
+          <FaArrowLeft className="w-4 h-4 mr-2" />
           Atrás
         </Button>
         <Button onClick={handleSubmit} size="lg" className="min-w-[200px]" disabled={isSubmitting}>
@@ -569,7 +342,7 @@ Para UFFO Studios - somosuffo@gmail.com
             </>
           ) : (
             <>
-              <Send className="w-4 h-4 mr-2" />
+              <FaPaperPlane className="w-4 h-4 mr-2" />
               Enviar
             </>
           )}

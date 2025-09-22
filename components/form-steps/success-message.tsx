@@ -2,10 +2,17 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Mail, ArrowLeft, MessageCircle, Home } from "lucide-react"
+import { FaEnvelope, FaArrowLeft, FaComments, FaHome, FaDownload } from "react-icons/fa"
 import Image from "next/image"
+import { useToast } from "@/hooks/use-toast"
 
-export function SuccessMessage() {
+interface SuccessMessageProps {
+  formData?: any
+}
+
+export function SuccessMessage({ formData }: SuccessMessageProps) {
+  const { toast } = useToast()
+
   const handleNewSubmission = () => {
     window.location.reload()
   }
@@ -19,6 +26,107 @@ export function SuccessMessage() {
 
   const handleBackToHome = () => {
     window.location.href = "/"
+  }
+
+  const handleDownloadPDF = async () => {
+    if (!formData) {
+      toast({
+        title: "Error",
+        description: "No hay datos de formulario disponibles",
+        variant: "destructive",
+      })
+      return
+    }
+
+    try {
+      toast({
+        title: "Generando PDF...",
+        description: "Por favor espera mientras preparamos tu documento",
+      })
+
+      const response = await fetch('/api/generate-pdf', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: formData.contactName,
+          email: formData.email,
+          telefono: formData.phone,
+          empresa: formData.companyName,
+          servicio: formData.selectedService,
+          presupuesto: formData.budget,
+          mensaje: `CONSULTA COMPLETA DE ${formData.selectedService?.toUpperCase()}
+
+INFORMACIÓN DE LA EMPRESA:
+- Empresa: ${formData.companyName}
+- Industria: ${formData.industry}
+- Tiempo operando: ${formData.operatingTime}
+- Ubicación: ${formData.city}, ${formData.province} (CP: ${formData.postalCode})
+- Website/Redes: ${formData.websiteOrSocial}
+
+DESCRIPCIÓN DEL NEGOCIO:
+${formData.companyDescription}
+
+PROPUESTA ÚNICA DE VALOR:
+${formData.uniqueSellingPoint}
+
+DETALLES DEL PROYECTO:
+- Presupuesto: ${formData.budget}
+- Timeline: ${formData.deadline}
+- Expectativas de diseño: ${formData.designExpectations}
+
+COMUNICACIÓN:
+- Responsable de decisiones: ${formData.decisionMaker}
+- Método preferido: ${formData.communicationMethod}
+- Horario: ${formData.contactSchedule}
+- Frecuencia: ${formData.contactFrequency}
+
+INFORMACIÓN DE PAGO:
+- Método preferido: ${formData.paymentPreference}
+- Cuotas: ${formData.paymentInstallments}
+
+COMENTARIOS ADICIONALES:
+${formData.additionalComments}`,
+          acepta_terminos: formData.consentGiven,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Error generando PDF')
+      }
+
+      const result = await response.json()
+      
+      if (result.success) {
+        // Crear un blob con el contenido HTML y descargarlo
+        const blob = new Blob([result.htmlContent], { type: 'text/html' })
+        const url = URL.createObjectURL(blob)
+        
+        // Crear link de descarga
+        const link = document.createElement('a')
+        link.href = url
+        link.download = result.fileName
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        URL.revokeObjectURL(url)
+        
+        toast({
+          title: "¡PDF Descargado!",
+          description: "Tu documento se ha descargado correctamente. Puedes imprimirlo usando Ctrl+P",
+        })
+      } else {
+        throw new Error(result.error || 'Error desconocido')
+      }
+    } catch (error) {
+      console.error('Error descargando PDF:', error)
+      toast({
+        title: "Error",
+        description: "Hubo un problema al generar el PDF. Inténtalo de nuevo.",
+        variant: "destructive",
+      })
+    }
   }
 
   return (
@@ -38,7 +146,7 @@ export function SuccessMessage() {
 
             <div className="space-y-4 mb-8">
               <div className="flex items-center justify-center space-x-2 text-sm text-muted-foreground">
-                <Mail className="w-4 h-4" />
+                <FaEnvelope className="w-4 h-4" />
                 <span>Tu solicitud ha sido enviada a nuestro equipo de diseño</span>
               </div>
             </div>
@@ -53,24 +161,39 @@ export function SuccessMessage() {
               </ul>
             </div>
 
+            {/* Botón destacado para descargar PDF */}
+            <div className="bg-[#BFE220]/10 border border-[#BFE220]/30 rounded-lg p-6 mb-6">
+              <h3 className="font-semibold text-foreground mb-2">📄 Guarda una copia de tu consulta</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Descarga un documento con todos los detalles de tu solicitud para tus registros
+              </p>
+              <Button 
+                onClick={handleDownloadPDF}
+                className="bg-[#BFE220] hover:bg-[#a8cc1d] text-[#181818] font-semibold min-w-[200px]"
+              >
+                <FaDownload className="w-4 h-4 mr-2" />
+                Descargar Resumen PDF
+              </Button>
+            </div>
+
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">
                 ¿Tienes preguntas o necesitas hacer cambios a tu solicitud?
               </p>
               <div className="flex flex-col sm:flex-row gap-3 justify-center">
                 <Button variant="outline" onClick={handleBackToHome} className="min-w-[160px] bg-transparent">
-                  <Home className="w-4 h-4 mr-2" />
+                  <FaHome className="w-4 h-4 mr-2" />
                   Volver al Menú
                 </Button>
                 <Button variant="outline" onClick={handleNewSubmission} className="min-w-[160px] bg-transparent">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  <FaArrowLeft className="w-4 h-4 mr-2" />
                   Enviar otra solicitud
                 </Button>
                 <Button
                   onClick={handleWhatsAppContact}
                   className="min-w-[160px] bg-[#181818] hover:bg-[#2a2a2a] text-[#BFE220]"
                 >
-                  <MessageCircle className="w-4 h-4 mr-2" />
+                  <FaComments className="w-4 h-4 mr-2" />
                   Contáctanos
                 </Button>
               </div>

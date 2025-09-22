@@ -29,6 +29,7 @@ export default function ContactForm() {
     presupuesto: "",
     mensaje: "",
     acepta_terminos: false,
+    enviar_copia_cliente: false,
   })
 
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -42,11 +43,42 @@ export default function ContactForm() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simular envío del formulario
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    try {
+      // Validar campos obligatorios
+      if (!formData.nombre || !formData.email || !formData.mensaje) {
+        alert('Por favor completa todos los campos obligatorios')
+        setIsSubmitting(false)
+        return
+      }
 
-    setIsSubmitting(false)
-    setIsSubmitted(true)
+      if (!formData.acepta_terminos) {
+        alert('Debes aceptar los términos y condiciones')
+        setIsSubmitting(false)
+        return
+      }
+
+      // Enviar formulario al endpoint
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        setIsSubmitted(true)
+      } else {
+        alert(`Error al enviar el formulario: ${result.error}`)
+      }
+    } catch (error) {
+      console.error('Error enviando formulario:', error)
+      alert('Error de conexión. Por favor intenta nuevamente.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const contactInfo = [
@@ -135,20 +167,20 @@ export default function ContactForm() {
         <div className="grid lg:grid-cols-3 gap-12 max-w-7xl mx-auto">
           {/* Contact Information */}
           <div className="lg:col-span-1 space-y-6 animate-fade-in-up">
-            <Card className="shadow-xl">
+            <Card className="shadow-xl bg-black text-green-400 border-gray-800">
               <CardHeader>
-                <CardTitle className="text-2xl font-bold text-foreground">Información de Contacto</CardTitle>
+                <CardTitle className="text-2xl font-bold text-green-400">Información de Contacto</CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
                 {contactInfo.map((info, index) => (
                   <div key={index} className="flex items-start space-x-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                      <info.icon className="w-6 h-6 text-primary" />
+                    <div className="w-12 h-12 bg-green-400/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <info.icon className="w-6 h-6 text-green-400" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground">{info.title}</h3>
-                      <p className="text-foreground font-medium">{info.content}</p>
-                      <p className="text-sm text-muted-foreground">{info.description}</p>
+                      <h3 className="font-semibold text-green-400">{info.title}</h3>
+                      <p className="text-green-300 font-medium">{info.content}</p>
+                      <p className="text-sm text-green-500">{info.description}</p>
                     </div>
                   </div>
                 ))}
@@ -283,6 +315,18 @@ export default function ContactForm() {
                       rows={5}
                       required
                     />
+                  </div>
+
+                  {/* Send copy to client */}
+                  <div className="flex items-start space-x-2">
+                    <Checkbox
+                      id="enviar_copia"
+                      checked={formData.enviar_copia_cliente}
+                      onCheckedChange={(checked) => handleInputChange("enviar_copia_cliente", checked as boolean)}
+                    />
+                    <Label htmlFor="enviar_copia" className="text-sm leading-relaxed">
+                      Quiero recibir una copia de esta consulta en mi correo electrónico
+                    </Label>
                   </div>
 
                   {/* Terms and Conditions */}

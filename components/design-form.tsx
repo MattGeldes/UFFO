@@ -43,6 +43,7 @@ export interface FormData {
   businessLocation: string // "argentina" or "abroad"
   province: string
   city: string
+  postalCode: string // Added postal code field
 
   // Conditional questions (will be populated based on service type)
   conditionalAnswers: Record<string, any>
@@ -75,6 +76,7 @@ const initialFormData: FormData = {
   businessLocation: "",
   province: "",
   city: "",
+  postalCode: "", // Added postal code to initial data
   conditionalAnswers: {},
   additionalComments: "",
   consentGiven: false,
@@ -240,29 +242,38 @@ export function DesignForm() {
   }
 
   const handleSubmit = async () => {
-    const { generatePDFAndSendEmail } = await import("@/lib/actions/email-actions")
-
     try {
-      const result = await generatePDFAndSendEmail(formData)
+      // Preparar datos para el nuevo endpoint
+      const emailData = {
+        nombre: formData.contactName,
+        email: formData.email,
+        telefono: formData.phone,
+        empresa: formData.companyName,
+        servicio: getServiceName(formData.selectedService || ''),
+        presupuesto: formData.budget,
+        mensaje: generateFormSummary(formData),
+        acepta_terminos: formData.consentGiven,
+      }
+
+      // Enviar al nuevo endpoint
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData),
+      })
+
+      const result = await response.json()
 
       if (result.success) {
-        // Download PDF for user
-        const pdfBlob = new Blob([Uint8Array.from(atob(result.pdfBase64), (c) => c.charCodeAt(0))], {
-          type: "application/pdf",
-        })
-        const url = URL.createObjectURL(pdfBlob)
-        const link = document.createElement("a")
-        link.href = url
-        link.download = result.filename
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-        URL.revokeObjectURL(url)
-
         toast({
           title: "¡Formulario enviado exitosamente!",
-          description: "El PDF se ha generado y descargado correctamente.",
+          description: `Tu consulta ha sido enviada correctamente.${result.clientEmailSent ? ' Se ha enviado una copia a tu email.' : ''}`,
+          duration: 5000,
         })
+      } else {
+        throw new Error(result.error || 'Error al enviar el formulario')
       }
     } catch (error) {
       console.error("Error enviando formulario:", error)
@@ -278,8 +289,60 @@ export function DesignForm() {
     setIsSubmitted(true)
   }
 
+  // Función auxiliar para generar un resumen del formulario
+  const generateFormSummary = (data: FormData): string => {
+    return `CONSULTA DE ${getServiceName(data.selectedService || '')}
+
+INFORMACIÓN DE LA EMPRESA:
+- Empresa: ${data.companyName}
+- Industria: ${data.industry}
+- Tiempo operando: ${data.operatingTime}
+- Ubicación: ${data.city}, ${data.province || 'Internacional'}${data.postalCode ? ` (CP: ${data.postalCode})` : ''}
+- Website/Redes: ${data.websiteOrSocial}
+
+DESCRIPCIÓN DEL NEGOCIO:
+${data.companyDescription}
+
+PROPUESTA ÚNICA DE VALOR:
+${data.uniqueSellingPoint}
+
+DETALLES DEL PROYECTO:
+- Presupuesto: ${data.budget}
+- Timeline: ${data.deadline}
+- Expectativas de diseño: ${data.designExpectations}
+
+ESPECIFICACIONES DEL SERVICIO:
+${JSON.stringify(data.conditionalAnswers, null, 2)}
+
+COMUNICACIÓN:
+- Responsable de decisiones: ${data.decisionMaker}
+- Método preferido: ${data.communicationMethod}
+- Horario: ${data.contactSchedule}
+- Frecuencia: ${data.contactFrequency}
+
+INFORMACIÓN DE PAGO:
+- Método preferido: ${data.paymentPreference}
+- Cuotas: ${data.paymentInstallments}
+
+COMENTARIOS ADICIONALES:
+${data.additionalComments || 'Ninguno'}
+    `
+  }
+
+  // Función auxiliar para obtener el nombre del servicio
+  const getServiceName = (serviceType: string): string => {
+    const serviceNames: Record<string, string> = {
+      subscription: "Suscripción Mensual",
+      logo: "Diseño de Logo",
+      "visual-identity": "Identidad Visual",
+      website: "Diseño de Sitio Web",
+      "graphic-assets": "Activos Gráficos",
+    }
+    return serviceNames[serviceType] || serviceType
+  }
+
   if (isSubmitted) {
-    return <SuccessMessage />
+    return <SuccessMessage formData={formData} />
   }
 
   const stepTitles = [

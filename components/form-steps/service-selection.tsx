@@ -3,7 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import type { ServiceType } from "../design-form"
-import { Palette, Globe, Sparkles, FileText } from "lucide-react"
+import { FaPalette, FaGlobe, FaStar, FaFileAlt } from "react-icons/fa"
 
 interface ServiceSelectionProps {
   selectedService: ServiceType | null
@@ -16,7 +16,7 @@ const services = [
     id: "subscription" as ServiceType,
     title: "Suscripción Mensual",
     description: "Servicios de diseño continuos con planes flexibles adaptados a tu crecimiento",
-    icon: FileText,
+    icon: FaFileAlt,
     color: "bg-[#181818]",
     featured: true,
   },
@@ -24,21 +24,21 @@ const services = [
     id: "logo" as ServiceType,
     title: "Diseño de Logo",
     description: "Crea una identidad de marca memorable con un logo profesional",
-    icon: Sparkles,
+    icon: FaStar,
     color: "bg-[#181818]",
   },
   {
     id: "visual-identity" as ServiceType,
     title: "Identidad Visual / Manual de Marca",
     description: "Paquete completo de branding con guías y recursos",
-    icon: Palette,
+    icon: FaPalette,
     color: "bg-[#181818]",
   },
   {
     id: "website" as ServiceType,
     title: "Diseño de Sitio Web",
     description: "Sitio web moderno y responsivo adaptado a tu negocio",
-    icon: Globe,
+    icon: FaGlobe,
     color: "bg-[#181818]",
   },
 ]
