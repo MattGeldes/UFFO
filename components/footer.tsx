@@ -59,7 +59,10 @@ export default function Footer() {
   ]
 
   return (
-    <footer id="footer" className="bg-[#181818] text-white mt-0">
+    <footer
+      id="footer"
+      className="bg-[#181818] text-white mt-12 sm:mt-16 lg:mt-24"
+    >
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
@@ -139,8 +142,8 @@ export default function Footer() {
         <Card className="mt-8 sm:mt-12 lg:mt-16 bg-[#bfe220] text-[#181818] border-none">
           <CardContent className="p-6 sm:p-8 text-center">
             <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4">¿Listo para hacer tu idea realidad?</h3>
-            <p className="text-base sm:text-lg mb-4 sm:mb-6 opacity-90 text-center sm:text-justify">
-              Contáctanos y comencemos a trabajar juntos en tu próximo proyecto
+            <p className="text-base sm:text-lg mb-4 sm:mb-6 opacity-90 text-center">
+              Contáctanos y comencemos a trabajar juntos en tu próximo proyecto!
             </p>
             <Link href="/formulario">
               <Button

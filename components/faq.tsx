@@ -50,8 +50,8 @@ export default function FAQ() {
   ]
 
   return (
-    <section id="faq" className="pt-12 sm:pt-16 lg:pt-20 pb-0 bg-background">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 pb-0">
+    <section id="faq" className="pt-12 sm:pt-16 lg:pt-20 pb-24 sm:pb-32 lg:pb-40 bg-background">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24">
         <div className="text-center mb-8 sm:mb-12 lg:mb-16 animate-fade-in-up">
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground mb-4">Preguntas Frecuentes</h2>
           <div className="w-24 h-1 bg-primary mx-auto rounded-full"></div>
@@ -60,7 +60,7 @@ export default function FAQ() {
           </p>
         </div>
 
-        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4 mb-0">
+        <div className="max-w-4xl mx-auto space-y-3 sm:space-y-4 mb-12">
           {faqItems.map((item, index) => (
             <Card
               key={index}
