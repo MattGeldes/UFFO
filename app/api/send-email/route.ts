@@ -408,20 +408,24 @@ export async function POST(request: NextRequest) {
   try {
     const formData: FormData = await request.json();
     
-    console.log('📧 Datos recibidos en /api/send-email:', JSON.stringify(formData, null, 2));
+    console.log('📧 Iniciando envío de email...');
+    console.log('API Key configurada:', process.env.RESEND_API_KEY ? '✅ Sí' : '❌ No');
     
     // Validar datos requeridos
     if (!formData.nombre || !formData.email || !formData.mensaje) {
+      console.error('❌ Faltan campos obligatorios');
       return NextResponse.json(
         { success: false, error: 'Faltan campos obligatorios' },
         { status: 400 }
       );
     }
 
-    // Generar contenido HTML del email para UFFO Studios
+    // Generar contenido HTML del email
     const htmlContent = generateHTMLEmailContent(formData);
 
-    // Enviar email a UFFO Studios
+    console.log('✉️ Intentando enviar email a:', 'somosuffo@gmail.com');
+    
+    // Enviar email
     const result = await resend.emails.send({
       from: 'UFFO Studios <onboarding@resend.dev>',
       to: ['somosuffo@gmail.com'],
@@ -430,21 +434,21 @@ export async function POST(request: NextRequest) {
       replyTo: formData.email,
     });
 
-    console.log('Email enviado exitosamente a UFFO Studios:', result);
+    console.log('✅ Email enviado exitosamente:', result);
 
     return NextResponse.json({
       success: true,
-      message: 'Email enviado correctamente a UFFO Studios',
+      message: 'Email enviado correctamente',
       emailId: result.data?.id,
     });
 
   } catch (error) {
-    console.error('Error enviando email:', error);
+    console.error('❌ Error detallado:', error);
     
     return NextResponse.json(
       { 
         success: false, 
-        error: 'Error interno del servidor al enviar el email',
+        error: 'Error al enviar email',
         details: error instanceof Error ? error.message : 'Error desconocido'
       },
       { status: 500 }
