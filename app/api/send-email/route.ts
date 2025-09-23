@@ -112,7 +112,7 @@ function translateCommunicationMethod(method: string): string {
     'whatsapp': 'WhatsApp',
     'video': 'Videollamada',
     'phone': 'Teléfono',
-    'advance-60': 'Aviso con 60 días de anticipación'
+    'advance-60': 'Entrega del 60% por adelantado',
   };
   return translations[method] || method;
 }
@@ -122,7 +122,8 @@ function translatePaymentMethod(method: string): string {
     'transfer': 'Transferencia bancaria',
     'installments': 'Cuotas/Financiamiento',
     'cash': 'Efectivo',
-    'card': 'Tarjeta de crédito/débito'
+    'card': 'Tarjeta de crédito/débito',
+    'advance-60': 'Entrega del 60% por adelantado'
   };
   return translations[method] || method;
 }
@@ -317,10 +318,6 @@ function generateHTMLEmailContent(formData: FormData) {
         </div>
         
         <div class="content">
-            <div style="background: #BFE220; color: #181818; padding: 15px 20px; border-radius: 8px; margin: 20px 0; font-weight: 600; text-align: center; font-size: 16px;">
-                💼 Consulta de <strong>${formData.servicio}</strong> desde <strong>${formData.empresa}</strong>
-            </div>
-
             <div class="section">
                 <h2>👤 Información de Contacto</h2>
                 <div class="field"><strong>Nombre:</strong><span>${formData.nombre}</span></div>
@@ -355,7 +352,7 @@ function generateHTMLEmailContent(formData: FormData) {
                 <h2>💼 Detalles del Proyecto</h2>
                 <div class="field"><strong>Servicio:</strong><span>${formData.servicio}</span></div>
                 <div class="field"><strong>Presupuesto:</strong><span>${formData.presupuesto}</span></div>
-                <div class="field"><strong>Timeline:</strong><span>${parsedData.timeline || 'No especificado'}</span></div>
+                <div class="field"><strong>Fecha Limite:</strong><span>${parsedData.timeline || 'No especificado'}</span></div>
                 <div class="field"><strong>Expectativas:</strong><span>${parsedData.expectativas || 'No especificado'}</span></div>
             </div>
 
@@ -376,7 +373,7 @@ function generateHTMLEmailContent(formData: FormData) {
 
             <div class="section">
                 <h2>💳 Información de Pago</h2>
-                <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoPago || (parsedData.cuotas ? 'Financiamiento en cuotas' : 'No especificado')}</span></div>
+                <div class="field"><strong>Método seleccionado:</strong><span>${parsedData.metodoPago || 'Entrega del 60% por adelantado'}</span></div>
                 ${parsedData.cuotas ? `<div class="field"><strong>Cuotas:</strong><span>${parsedData.cuotas}</span></div>` : ''}
             </div>
 
