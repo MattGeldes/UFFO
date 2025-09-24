@@ -1,0 +1,19 @@
+# Archivos que Cloudflare debe ignorar
+.next/cache
+.next/trace
+node_modules
+.env*
+.git
+README.md
+*.log
+.DS_Store
+*.local
+cache
+.vercel
+coverage
+.nyc_output
+.cache
+dist
+build
+.temp
+tmp
