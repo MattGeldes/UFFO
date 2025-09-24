@@ -69,7 +69,6 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
     if (!formData.deadline.trim()) newErrors.deadline = "La fecha límite es requerida"
     if (!formData.decisionMaker.trim()) newErrors.decisionMaker = "El responsable de decisiones es requerido"
     if (!formData.communicationMethod) newErrors.communicationMethod = "El método de comunicación es requerido"
-    if (!formData.designExpectations.trim()) newErrors.designExpectations = "Las expectativas de diseño son requeridas"
     if (!formData.contactSchedule) newErrors.contactSchedule = "El horario de contacto es requerido"
     if (!formData.contactFrequency) newErrors.contactFrequency = "La frecuencia de contacto es requerida"
 
@@ -299,7 +298,6 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
               <SelectItem value="1-mes">1 mes</SelectItem>
               <SelectItem value="1-5-meses">1 a 2 meses</SelectItem>
               <SelectItem value="2-3-meses">2 a 3 meses</SelectItem>
-              <SelectItem value="flexible">Flexible</SelectItem>
               <SelectItem value="lo-antes-posible">Lo antes posible</SelectItem>
             </SelectContent>
           </Select>
@@ -397,21 +395,6 @@ export function GeneralQuestions({ formData, onUpdate, onNext, onPrev }: General
             </SelectContent>
           </Select>
           {errors.contactFrequency && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.contactFrequency}</p>}
-        </div>
-
-        {/* Design Expectations */}
-        <div className="space-y-2 md:col-span-2">
-          <Label htmlFor="designExpectations" className="text-sm font-medium text-gray-900 font-['Rubik',sans-serif]">
-            Expectativas para el Proceso de Diseño *
-          </Label>
-          <Textarea
-            id="designExpectations"
-            value={formData.designExpectations}
-            onChange={(e) => handleInputChange("designExpectations", e.target.value)}
-            placeholder="Cuéntanos sobre tus expectativas, estilo preferido, número de revisiones, cronograma, etc."
-            className={`min-h-[100px] resize-none ${errors.designExpectations ? "border-destructive" : ""}`}
-          />
-          {errors.designExpectations && <p className="text-sm text-red-400 font-['Rubik',sans-serif]">{errors.designExpectations}</p>}
         </div>
       </div>
 

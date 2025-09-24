@@ -353,7 +353,6 @@ function generateHTMLEmailContent(formData: FormData) {
                 <div class="field"><strong>Servicio:</strong><span>${formData.servicio}</span></div>
                 <div class="field"><strong>Presupuesto:</strong><span>${formData.presupuesto}</span></div>
                 <div class="field"><strong>Fecha Limite:</strong><span>${parsedData.timeline || 'No especificado'}</span></div>
-                <div class="field"><strong>Expectativas:</strong><span>${parsedData.expectativas || 'No especificado'}</span></div>
             </div>
 
             ${parsedData.especificaciones ? `

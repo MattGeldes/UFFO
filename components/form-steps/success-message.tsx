@@ -73,7 +73,7 @@ ${formData.uniqueSellingPoint}
 DETALLES DEL PROYECTO:
 - Presupuesto: ${formData.budget}
 - Timeline: ${formData.deadline}
-- Expectativas de diseño: ${formData.designExpectations}
+
 
 COMUNICACIÓN:
 - Responsable de decisiones: ${formData.decisionMaker}

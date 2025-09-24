@@ -309,7 +309,6 @@ ${data.uniqueSellingPoint}
 DETALLES DEL PROYECTO:
 - Presupuesto: ${data.budget}
 - Timeline: ${data.deadline}
-- Expectativas de diseño: ${data.designExpectations}
 
 ESPECIFICACIONES DEL SERVICIO:
 ${JSON.stringify(data.conditionalAnswers, null, 2)}
