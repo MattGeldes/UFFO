@@ -5,8 +5,7 @@ compatibility_flags = ["nodejs_compat"]
 [build]
 command = "npm run build"
 
-[[pages_build_output_dir]]
-output = ".next"
+pages_build_output_dir = ".next"
 
 [env.production.vars]
 RESEND_API_KEY = "re_CYhzyVdy_QLGxDBzyqQ7XBpcMBa2svYgY"
