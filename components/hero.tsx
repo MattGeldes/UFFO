@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export default function Hero() {
-  const greetings = ["HOLA!", "CIAO!", "HI!", "BONJOUR!", "OLÁ!", "HALLO!", "こんにちは!","مرحبا!","Здравствуйте!", "HEJ!", "SALVE!"]
+  const greetings = ["HOLA!","HALLO!", "HI!", "BONJOUR!", "OLÁ!", "CIAO!", "こんにちは!", "안녕하세요!", "你好!", "مرحبا!"]
   const [currentIndex, setCurrentIndex] = useState(0)
   const [text, setText] = useState("")
 
