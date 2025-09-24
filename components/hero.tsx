@@ -5,26 +5,41 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export default function Hero() {
-  const [currentGreeting, setCurrentGreeting] = useState(0)
-  const greetings = [
-    "HOLA", // Español
-    "HELLO", // Inglés
-    "HALLO", // Alemán
-    "CIAO", // Italiano
-    "BONJOUR", // Francés
-    "OLÁ", // Portugués
-    "HOLA", // Catalán
-    "こんにちは", // Japonés
-    "ПРИВЕТ", // Ruso
-    "مرحبا", // Árabe
-  ]
+  const greetings = ["HOLA!", "CIAO!", "HI!", "BONJOUR!", "OLÁ!", "HALLO!"]
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [text, setText] = useState("")
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentGreeting((prev) => (prev + 1) % greetings.length)
-    }, 1000)
-    return () => clearInterval(interval)
-  }, [greetings.length])
+    const typingSpeed = 150 // Más rápido (era 300)
+    const pauseDuration = 2000 // Menor pausa (era 3000)
+    let currentText = ""
+    let currentWordIndex = 0
+    let timeoutId: NodeJS.Timeout
+
+    const typeWriter = () => {
+      const currentWord = greetings[currentWordIndex]
+
+      if (currentText.length < currentWord.length) {
+        currentText = currentWord.slice(0, currentText.length + 1)
+        setText(currentText)
+        timeoutId = setTimeout(typeWriter, typingSpeed)
+      } else {
+        timeoutId = setTimeout(() => {
+          currentText = ""
+          currentWordIndex = (currentWordIndex + 1) % greetings.length
+          setText("")
+          typeWriter()
+        }, pauseDuration)
+      }
+    }
+
+    typeWriter()
+    return () => {
+      clearTimeout(timeoutId)
+      currentText = ""
+      setText("")
+    }
+  }, [])
 
   return (
     <section className="min-h-screen flex flex-col justify-center items-center relative bg-white px-4 sm:px-6 lg:px-8 pt-20">
@@ -35,31 +50,13 @@ export default function Hero() {
       <div className="container mx-auto max-w-6xl">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8 lg:gap-16">
           <div className="flex flex-col items-center lg:items-start text-center lg:text-left">
-            <div className="relative overflow-hidden h-24 sm:h-28 lg:h-32 mb-6 flex items-center justify-center lg:justify-start">
-              {greetings.map((greeting, index) => (
-                <div
-                  key={`${greeting}-${index}`}
-                  className={`absolute text-6xl sm:text-7xl lg:text-8xl font-bold text-[#181818] transition-all duration-1000 ${
-                    index === currentGreeting
-                      ? "opacity-100 transform translate-y-0 scale-100"
-                      : "opacity-0 transform translate-y-4 scale-75"
-                  }`}
-                  style={{
-                    transitionTimingFunction: "cubic-bezier(0.25, 0.8, 0.25, 1)",
-                    transitionProperty: "opacity, transform",
-                  }}
-                >
-                  {greeting}!
-                </div>
-              ))}
+            <div className="h-24 sm:h-28 lg:h-32 mb-6 flex items-center justify-center lg:justify-start">
+              <h1 className="text-6xl sm:text-7xl lg:text-8xl font-bold text-[#181818]">
+                {text}
+                <span className="animate-blink">|</span>
+              </h1>
             </div>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-medium text-[#4e6e5d] mb-4 text-justify">
-              Estudio creativo
-            </h2>
           </div>
-
-          {/* Divisor - mantener igual */}
-          <div className="w-16 h-1 lg:w-1 lg:h-32 bg-[#bfe220] rounded-full shadow-lg"></div>
 
           {/* Lado derecho - mantener igual */}
           <div className="text-center lg:text-right">

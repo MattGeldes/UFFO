@@ -298,7 +298,7 @@ export function FinalStep({ formData, onUpdate, onSubmit, onPrev }: FinalStepPro
       </div>
 
       <div className="space-y-3">
-        <div className="flex items-start space-x-3">
+        <div className="flex items-start space-x-4 p-4 bg-muted/50 rounded-lg border-2 border-[#BFE220]/20 hover:border-[#BFE220]/40 transition-all duration-300">
           <Checkbox
             id="consent"
             checked={formData.consentGiven}
@@ -308,19 +308,21 @@ export function FinalStep({ formData, onUpdate, onSubmit, onPrev }: FinalStepPro
                 setErrors((prev) => ({ ...prev, consent: "" }))
               }
             }}
-            className="mt-1"
+            className="mt-1 w-5 h-5 border-2 border-gray-400 data-[state=checked]:border-[#BFE220] data-[state=checked]:bg-[#BFE220]"
           />
-          <div className="space-y-1">
-            <Label htmlFor="consent" className="text-sm font-medium cursor-pointer text-foreground">
+          <div className="space-y-1 flex-1">
+            <Label htmlFor="consent" className="text-base font-semibold cursor-pointer text-foreground hover:text-[#181818] transition-colors">
               Autorizo el almacenamiento de mis respuestas únicamente para la propuesta *
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               Tu información será utilizada únicamente para crear tu propuesta de diseño y no será compartida con
               terceros.
             </p>
           </div>
         </div>
-        {errors.consent && <p className="text-sm text-destructive">{errors.consent}</p>}
+        {errors.consent && (
+          <p className="text-sm text-destructive font-medium bg-destructive/10 p-2 rounded">{errors.consent}</p>
+        )}
       </div>
 
       <div className="flex justify-between pt-6 animate-in fade-in-50 slide-in-from-bottom-4 duration-500 delay-500">
