@@ -2,10 +2,5 @@ name = "uffo-studio"
 compatibility_date = "2023-05-18"
 compatibility_flags = ["nodejs_compat"]
 
-[build]
-command = "npm run build"
-
-pages_build_output_dir = ".next"
-
-[env.production.vars]
+[vars]
 RESEND_API_KEY = "re_CYhzyVdy_QLGxDBzyqQ7XBpcMBa2svYgY"

@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
-    "build:cf": "next build && cp -r public .next/standalone/ && cp -r .next/static .next/standalone/.next/",
+    "build:cf": "next build && npx @cloudflare/next-on-pages",
     "dev": "next dev",
     "lint": "next lint",
     "start": "next start"
