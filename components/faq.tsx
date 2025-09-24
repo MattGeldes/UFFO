@@ -23,47 +23,47 @@ export default function FAQ() {
         "En Uffo Studios trabajamos de forma colaborativa y organizada. El primer paso es completar nuestro formulario de contacto, que nos ayuda a conocer mejor tus necesidades y objetivos. Con esa información preparamos una propuesta y presupuesto a medida. Luego coordinamos una reunión o videollamada para profundizar en los detalles, ajustar lo necesario y definir juntos el plan de trabajo. Así aseguramos claridad desde el inicio y un proceso transparente en cada etapa.",
     },
     {
+      question: "¿Cómo sé cuánto voy a invertir en mi proyecto?",
+      answer:
+      "El costo de cada proyecto depende de su alcance, complejidad y necesidades específicas. Para darte un presupuesto adecuado, primero te pedimos que completes nuestro formulario de contacto y luego mantenemos una breve reunión para profundizar en tus objetivos. Con esa información elaboramos una propuesta a medida, para que tu inversión se traduzca en un proyecto sólido y con verdadero impacto en tu marca.",
+    },
+    {
+      question: "Formas de pago y financiación disponibles",
+      answer:
+      "Cada proyecto y cliente es único, por eso ofrecemos distintas opciones de pago para que elijas la que mejor se adapte a vos: podés abonar el 60% al inicio y el 40% al finalizar, cancelar todo al comienzo con un descuento especial, o financiarlo en 2 o 3 cuotas. Queremos que el proceso sea transparente y cómodo, por eso dejamos todos los detalles claros en el contrato.",
+    },
+    {
       question: "¿Qué pasa si al cliente no le gusta el sitio web/trabajo?",
       answer:
         "En cada proyecto incluimos hasta 3 rondas de revisiones sin costo adicional, para que puedas darnos tu feedback y afinar cada detalle. Si necesitás más cambios después de esas instancias, podemos realizarlos con un costo extra, pero siempre con la misma disposición de escucharte, entenderte y acompañarte en el proceso. Lo importante para nosotros es que el resultado final refleje lo que buscás.",
     },
     {
-      question: "¿Cómo sé cuánto voy a invertir en mi proyecto?",
+      question: "¿Qué es y cómo funciona una revisión?",
       answer:
-        "El costo de cada proyecto depende de su alcance, complejidad y necesidades específicas. Para darte un presupuesto adecuado, primero te pedimos que completes nuestro formulario de contacto y luego mantenemos una breve reunión para profundizar en tus objetivos. Con esa información elaboramos una propuesta a medida, para que tu inversión se traduzca en un proyecto sólido y con verdadero impacto en tu marca.",
+      "Una revisión es un momento dentro del trabajo en el que podés indicarnos cambios, ajustes o mejoras sobre lo que te hemos entregado hasta ese momento. Es un espacio de feedback en el que revisamos juntos lo realizado, hacemos los ajustes necesarios y afinamos cada detalle para lograr el resultado que buscás.",
     },
     {
-      question: "Formas de pago y financiación disponibles",
+      question: "¿Puedo cancelar o cambiar algo una vez iniciado el trabajo?",
       answer:
-        "Cada proyecto y cliente es único, por eso ofrecemos distintas opciones de pago para que elijas la que mejor se adapte a vos: podés abonar el 60% al inicio y el 40% al finalizar, cancelar todo al comienzo con un descuento especial, o financiarlo en 2 o 3 cuotas. Queremos que el proceso sea transparente y cómodo, por eso dejamos todos los detalles claros en el contrato.",
+      "Entendemos que pueden surgir cambios. Hasta cierto punto, se pueden realizar ajustes o incluso cancelar partes del trabajo, según lo que hayamos acordado en el contrato. Siempre buscamos soluciones que sean justas y claras, y te acompañamos durante todo el proceso para que no haya sorpresas.",
+    },
+    {
+      question: "¿Qué pasa si necesito algo urgente o fuera de los tiempos habituales?",
+      answer:
+      "Si necesitás que el trabajo se entregue antes de lo previsto, evaluamos la factibilidad según la complejidad y el calendario de nuestro equipo. En algunos casos podemos priorizar entregas urgentes, siempre comunicando claramente los tiempos y costos adicionales si corresponden.",
+    },
+    {
+      question: "¿Cómo recibo el trabajo final y qué incluye?",
+      answer:
+      "El trabajo final se entrega según lo que acordemos y lo que necesites: archivos digitales listos para usar, como imágenes, videos, animaciones o prototipos web. Te los enviamos de manera segura y organizada, y si necesitás algún formato adicional o soporte especial, lo coordinamos para que tengas todo lo que necesitás para usar tu trabajo sin problemas.",
     },
     {
       question: "¿En cuánto tiempo puedo recibir el resultado final?",
       answer:
         "El tiempo de entrega depende del alcance y la complejidad de cada proyecto. En la etapa inicial definimos un cronograma junto con vos, que puede ir desde unos pocos días hasta varias semanas o un par de meses, según lo que se necesite. Nuestro objetivo es cumplir los plazos acordados sin comprometer la calidad del diseño.",
     },
-    {
-      question: "¿Qué es y cómo funciona una revisión?",
-      answer:
-        "Una revisión es un momento dentro del trabajo en el que podés indicarnos cambios, ajustes o mejoras sobre lo que te hemos entregado hasta ese momento. Es un espacio de feedback en el que revisamos juntos lo realizado, hacemos los ajustes necesarios y afinamos cada detalle para lograr el resultado que buscás.",
-    },
-    {
-      question: "¿Puedo cancelar o cambiar algo una vez iniciado el trabajo?",
-      answer:
-        "Entendemos que pueden surgir cambios. Hasta cierto punto, se pueden realizar ajustes o incluso cancelar partes del trabajo, según lo que hayamos acordado en el contrato. Siempre buscamos soluciones que sean justas y claras, y te acompañamos durante todo el proceso para que no haya sorpresas.",
-    },
-    {
-      question: "¿Qué pasa si necesito algo urgente o fuera de los tiempos habituales?",
-      answer:
-        "Si necesitás que el trabajo se entregue antes de lo previsto, evaluamos la factibilidad según la complejidad y el calendario de nuestro equipo. En algunos casos podemos priorizar entregas urgentes, siempre comunicando claramente los tiempos y costos adicionales si corresponden.",
-    },
-    {
-      question: "¿Cómo recibo el trabajo final y qué incluye?",
-      answer:
-        "El trabajo final se entrega según lo que acordemos y lo que necesites: archivos digitales listos para usar, como imágenes, videos, animaciones o prototipos web. Te los enviamos de manera segura y organizada, y si necesitás algún formato adicional o soporte especial, lo coordinamos para que tengas todo lo que necesitás para usar tu trabajo sin problemas.",
-    },
   ]
-
+  
   return (
     <section id="faq" className="pt-12 sm:pt-16 lg:pt-20 pb-24 sm:pb-32 lg:pb-40 bg-background">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 mb-24">
