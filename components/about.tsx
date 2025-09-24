@@ -44,17 +44,13 @@ export default function About() {
 
           <div className="flex justify-center animate-fade-in-up">
             <Card className="w-full max-w-md shadow-2xl bg-white border-[#bfe220]/20">
-              <CardContent className="p-8 flex justify-center">
+              <CardContent className="p-8 flex justify-center relative aspect-square">
                 <Image
-                  src="/images/UFFO_64.svg"
+                  src="/logo-uffo-gif.gif"
                   alt="UFFO Studios Logo"
-                  width={200}
-                  height={200}
-                  className="w-48 h-48"
-                  style={{
-                    filter:
-                      "brightness(0) saturate(100%) invert(9%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(0%) contrast(100%)",
-                  }}
+                  fill
+                  className="object-cover"
+                  priority
                 />
               </CardContent>
             </Card>
@@ -72,3 +68,4 @@ export default function About() {
     </section>
   )
 }
+
