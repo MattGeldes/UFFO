@@ -15,37 +15,52 @@ export default function FAQ() {
     {
       question: "¿En qué tipos de proyectos trabajan?",
       answer:
-        "Trabajamos en una variedad de proyectos que incluyen desde diseño gráfico, fotografía, diseño web personalizado, desarrollo de sitios web, soluciones de comercio electrónico, rediseños de sitios web existentes y mucho más.",
+        "Trabajamos en proyectos muy variados, siempre con un enfoque creativo y funcional. Podemos ayudarte con el rebranding de tu marca, fotografía de producto, piezas gráficas para redes y animaciones. También diseñamos y prototipamos sitios web personalizados, desarrollamos soluciones de e-commerce y renovamos páginas ya existentes. En resumen: cualquier proyecto donde la creatividad y la comunicación visual hagan crecer tu marca.",
     },
     {
       question: "¿Cómo se organizan para hacer los trabajos?",
       answer:
-        "En Uffo studios trabajamos de manera colaborativa y estructurada. Iniciamos con una reunión de briefing para entender tus necesidades y objetivos. Posteriormente, diseñamos un plan de trabajo y cronograma detallado que incluye entregas parciales y revisiones en cada etapa del proceso. Nuestro objetivo es mantener una comunicación fluida y transparente para que el resultado final refleje fielmente lo que buscas.",
+        "En Uffo Studios trabajamos de forma colaborativa y organizada. El primer paso es completar nuestro formulario de contacto, que nos ayuda a conocer mejor tus necesidades y objetivos. Con esa información preparamos una propuesta y presupuesto a medida. Luego coordinamos una reunión o videollamada para profundizar en los detalles, ajustar lo necesario y definir juntos el plan de trabajo. Así aseguramos claridad desde el inicio y un proceso transparente en cada etapa.",
     },
     {
       question: "¿Qué pasa si al cliente no le gusta el sitio web/trabajo?",
       answer:
-        "Nos importa tu satisfacción. Si el resultado no cumple con tus expectativas, ofrecemos revisiones y ajustes dentro de los términos pactados previamente. Trabajamos contigo para afinar cada detalle hasta lograr el diseño ideal. En situaciones excepcionales, evaluamos alternativas que puedan incluir revisiones adicionales o, en casos muy particulares, acuerdos específicos en función de lo establecido en el contrato.",
+        "En cada proyecto incluimos hasta 3 rondas de revisiones sin costo adicional, para que puedas darnos tu feedback y afinar cada detalle. Si necesitás más cambios después de esas instancias, podemos realizarlos con un costo extra, pero siempre con la misma disposición de escucharte, entenderte y acompañarte en el proceso. Lo importante para nosotros es que el resultado final refleje lo que buscás.",
     },
     {
-      question: "¿Cuánto cuesta el diseño de un proyecto?",
+      question: "¿Cómo sé cuánto voy a invertir en mi proyecto?",
       answer:
-        "El costo de un proyecto varía según su alcance, complejidad y requerimientos específicos. Por ello, en Uffo studios realizamos una cotización personalizada para cada cliente. Te invitamos a contactarnos para analizar en detalle tus necesidades y brindarte una propuesta a medida.",
+        "El costo de cada proyecto depende de su alcance, complejidad y necesidades específicas. Para darte un presupuesto adecuado, primero te pedimos que completes nuestro formulario de contacto y luego mantenemos una breve reunión para profundizar en tus objetivos. Con esa información elaboramos una propuesta a medida, para que tu inversión se traduzca en un proyecto sólido y con verdadero impacto en tu marca.",
     },
     {
-      question: "¿Cuándo y cómo pago?",
+      question: "Formas de pago y financiación disponibles",
       answer:
-        "Para facilitar la planificación y garantizar el compromiso, solicitamos un adelanto del 40% del costo total al inicio del proyecto. El restante se abona al finalizar y aprobar el trabajo. Aceptamos transferencias bancarias y otros métodos de pago digitales, y todos estos detalles se especifican en el contrato.",
+        "Cada proyecto y cliente es único, por eso ofrecemos distintas opciones de pago para que elijas la que mejor se adapte a vos: podés abonar el 60% al inicio y el 40% al finalizar, cancelar todo al comienzo con un descuento especial, o financiarlo en 2 o 3 cuotas. Queremos que el proceso sea transparente y cómodo, por eso dejamos todos los detalles claros en el contrato.",
     },
     {
-      question: "¿Cuánto tiempo tarda el proyecto?",
+      question: "¿En cuánto tiempo puedo recibir el resultado final?",
       answer:
-        "El plazo de entrega depende de la complejidad y alcance del proyecto. En la fase inicial, definimos un cronograma que puede variar desde unas semanas hasta un par de meses. Nos esforzamos por cumplir con los tiempos establecidos sin comprometer la calidad del diseño.",
+        "El tiempo de entrega depende del alcance y la complejidad de cada proyecto. En la etapa inicial definimos un cronograma junto con vos, que puede ir desde unos pocos días hasta varias semanas o un par de meses, según lo que se necesite. Nuestro objetivo es cumplir los plazos acordados sin comprometer la calidad del diseño.",
     },
     {
-      question: "¿Qué tipo de revisiones se incluyen?",
+      question: "¿Qué es y cómo funciona una revisión?",
       answer:
-        "Incluimos un número determinado de revisiones dentro del proceso de diseño para asegurarnos de que el resultado se ajuste a tus expectativas. Estos ajustes están contemplados en la propuesta inicial. Si se requieren modificaciones adicionales, te informaremos de las condiciones y costos extra para adaptarnos a tus necesidades.",
+        "Una revisión es un momento dentro del trabajo en el que podés indicarnos cambios, ajustes o mejoras sobre lo que te hemos entregado hasta ese momento. Es un espacio de feedback en el que revisamos juntos lo realizado, hacemos los ajustes necesarios y afinamos cada detalle para lograr el resultado que buscás.",
+    },
+    {
+      question: "¿Puedo cancelar o cambiar algo una vez iniciado el trabajo?",
+      answer:
+        "Entendemos que pueden surgir cambios. Hasta cierto punto, se pueden realizar ajustes o incluso cancelar partes del trabajo, según lo que hayamos acordado en el contrato. Siempre buscamos soluciones que sean justas y claras, y te acompañamos durante todo el proceso para que no haya sorpresas.",
+    },
+    {
+      question: "¿Qué pasa si necesito algo urgente o fuera de los tiempos habituales?",
+      answer:
+        "Si necesitás que el trabajo se entregue antes de lo previsto, evaluamos la factibilidad según la complejidad y el calendario de nuestro equipo. En algunos casos podemos priorizar entregas urgentes, siempre comunicando claramente los tiempos y costos adicionales si corresponden.",
+    },
+    {
+      question: "¿Cómo recibo el trabajo final y qué incluye?",
+      answer:
+        "El trabajo final se entrega según lo que acordemos y lo que necesites: archivos digitales listos para usar, como imágenes, videos, animaciones o prototipos web. Te los enviamos de manera segura y organizada, y si necesitás algún formato adicional o soporte especial, lo coordinamos para que tengas todo lo que necesitás para usar tu trabajo sin problemas.",
     },
   ]
 
@@ -84,9 +99,8 @@ export default function FAQ() {
                 </button>
 
                 <div
-                  className={`overflow-hidden transition-all duration-300 ${
-                    openItems.includes(index) ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
-                  }`}
+                  className={`overflow-hidden transition-all duration-300 ${openItems.includes(index) ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                    }`}
                 >
                   <div className="px-4 sm:px-6 pb-4 sm:pb-6">
                     <div className="w-full h-px bg-border mb-3 sm:mb-4"></div>

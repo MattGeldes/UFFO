@@ -5,31 +5,41 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 
 export default function Hero() {
-  const greetings = ["HOLA!", "CIAO!", "HI!", "BONJOUR!", "OLÁ!", "HALLO!"]
+  const greetings = ["HOLA!", "CIAO!", "HI!", "BONJOUR!", "OLÁ!", "HALLO!", "こんにちは!","مرحبا!","Здравствуйте!", "HEJ!", "SALVE!"]
   const [currentIndex, setCurrentIndex] = useState(0)
   const [text, setText] = useState("")
 
   useEffect(() => {
-    const typingSpeed = 150 // Más rápido (era 300)
-    const pauseDuration = 2000 // Menor pausa (era 3000)
+    const typingSpeed = 150
+    const deletingSpeed = 100
+    const pauseDuration = 2000
     let currentText = ""
     let currentWordIndex = 0
+    let isDeleting = false
     let timeoutId: NodeJS.Timeout
 
     const typeWriter = () => {
       const currentWord = greetings[currentWordIndex]
 
-      if (currentText.length < currentWord.length) {
+      if (!isDeleting && currentText.length < currentWord.length) {
+        // Escribiendo
         currentText = currentWord.slice(0, currentText.length + 1)
         setText(currentText)
         timeoutId = setTimeout(typeWriter, typingSpeed)
+      } else if (!isDeleting && currentText.length === currentWord.length) {
+        // Palabra completa, comenzar a borrar
+        isDeleting = true
+        timeoutId = setTimeout(typeWriter, pauseDuration)
+      } else if (isDeleting && currentText.length > 0) {
+        // Borrando
+        currentText = currentWord.slice(0, currentText.length - 1)
+        setText(currentText)
+        timeoutId = setTimeout(typeWriter, deletingSpeed)
       } else {
-        timeoutId = setTimeout(() => {
-          currentText = ""
-          currentWordIndex = (currentWordIndex + 1) % greetings.length
-          setText("")
-          typeWriter()
-        }, pauseDuration)
+        // Palabra borrada, pasar a la siguiente
+        isDeleting = false
+        currentWordIndex = (currentWordIndex + 1) % greetings.length
+        timeoutId = setTimeout(typeWriter, typingSpeed)
       }
     }
 
