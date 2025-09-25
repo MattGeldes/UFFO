@@ -2,8 +2,24 @@ import { Resend } from 'resend';
 
 export async function onRequestPost({ request, env }) {
   try {
+    // Verificar que la API key existe
+    if (!env.RESEND_API_KEY) {
+      console.error('❌ RESEND_API_KEY no está configurada');
+      return new Response(JSON.stringify({ 
+        success: false, 
+        error: 'Configuración de email no disponible',
+        details: 'RESEND_API_KEY no configurada en el entorno'
+      }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
+
     const resend = new Resend(env.RESEND_API_KEY);
     const formData = await request.json();
+    
+    // Log para debugging (sin datos sensibles)
+    console.log('📧 Procesando email para:', formData.empresa, 'Servicio:', formData.servicio);
 
     const currentDate = new Date().toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -17,8 +33,8 @@ export async function onRequestPost({ request, env }) {
     function parseMessageToHTML(mensaje) {
       const lines = mensaje.split('\n').filter(line => line.trim() !== '');
       const parsed = {
-        industria: '', tiempoOperando: '', ubicacion: '', websiteRedes: '',
-        descripcionNegocio: '', propuestaValor: '', timeline: '', expectativas: '',
+        empresa: '', industria: '', tiempoOperando: '', ubicacion: '', websiteRedes: '',
+        descripcionNegocio: '', propuestaValor: '', presupuesto: '', timeline: '', 
         especificaciones: '', responsableDecisiones: '', metodoComunicacion: '',
         horario: '', frecuencia: '', metodoPago: '', cuotas: '', comentarios: ''
       };
@@ -40,12 +56,14 @@ export async function onRequestPost({ request, env }) {
           const [campo, ...valorParts] = trimmedLine.substring(2).split(': ');
           const valor = valorParts.join(': ');
           
-          if (campo === 'Industria') parsed.industria = valor;
+          // Mapear los campos que realmente vienen del formulario
+          if (campo === 'Empresa') parsed.empresa = valor;
+          else if (campo === 'Industria') parsed.industria = valor;
           else if (campo === 'Tiempo operando') parsed.tiempoOperando = valor;
           else if (campo === 'Ubicación') parsed.ubicacion = valor;
           else if (campo === 'Website/Redes') parsed.websiteRedes = valor;
+          else if (campo === 'Presupuesto') parsed.presupuesto = valor;
           else if (campo === 'Timeline') parsed.timeline = valor;
-          else if (campo === 'Expectativas de diseño') parsed.expectativas = valor;
           else if (campo === 'Responsable de decisiones') parsed.responsableDecisiones = valor;
           else if (campo === 'Método preferido') {
             if (currentSection === 'comunicacion') parsed.metodoComunicacion = valor;
@@ -109,6 +127,7 @@ export async function onRequestPost({ request, env }) {
 
             <div class="section">
                 <h2>🏢 Información de la Empresa</h2>
+                <div class="field"><strong>Empresa:</strong><span>${parsedData.empresa || formData.empresa}</span></div>
                 <div class="field"><strong>Industria:</strong><span>${parsedData.industria || 'No especificado'}</span></div>
                 <div class="field"><strong>Tiempo operando:</strong><span>${parsedData.tiempoOperando || 'No especificado'}</span></div>
                 <div class="field"><strong>Ubicación:</strong><span>${parsedData.ubicacion || 'No especificado'}</span></div>
@@ -116,11 +135,45 @@ export async function onRequestPost({ request, env }) {
             </div>
 
             <div class="section">
-                <h2>💼 Detalles del Proyecto</h2>
+                <h2>� Descripción del Negocio</h2>
+                <div class="field" style="flex-direction: column;"><span>${parsedData.descripcionNegocio || 'No especificado'}</span></div>
+            </div>
+
+            <div class="section">
+                <h2>✨ Propuesta Única de Valor</h2>
+                <div class="field" style="flex-direction: column;"><span>${parsedData.propuestaValor || 'No especificado'}</span></div>
+            </div>
+
+            <div class="section">
+                <h2>�💼 Detalles del Proyecto</h2>
                 <div class="field"><strong>Servicio:</strong><span>${formData.servicio}</span></div>
                 <div class="field"><strong>Presupuesto:</strong><span>${formData.presupuesto}</span></div>
                 <div class="field"><strong>Timeline:</strong><span>${parsedData.timeline || 'No especificado'}</span></div>
                 <div class="field"><strong>Términos:</strong><span>${formData.acepta_terminos ? 'Aceptados ✓' : 'No aceptados ✗'}</span></div>
+            </div>
+
+            <div class="section">
+                <h2>🔧 Especificaciones del Servicio</h2>
+                <div class="field" style="flex-direction: column;"><pre style="background: white; padding: 10px; border-radius: 4px; margin: 0; white-space: pre-wrap;">${parsedData.especificaciones || 'No especificado'}</pre></div>
+            </div>
+
+            <div class="section">
+                <h2>📞 Información de Comunicación</h2>
+                <div class="field"><strong>Responsable:</strong><span>${parsedData.responsableDecisiones || 'No especificado'}</span></div>
+                <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoComunicacion || 'No especificado'}</span></div>
+                <div class="field"><strong>Horario:</strong><span>${parsedData.horario || 'No especificado'}</span></div>
+                <div class="field"><strong>Frecuencia:</strong><span>${parsedData.frecuencia || 'No especificado'}</span></div>
+            </div>
+
+            <div class="section">
+                <h2>💳 Información de Pago</h2>
+                <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoPago || 'No especificado'}</span></div>
+                <div class="field"><strong>Cuotas:</strong><span>${parsedData.cuotas || 'No especificado'}</span></div>
+            </div>
+
+            <div class="section">
+                <h2>💬 Comentarios Adicionales</h2>
+                <div class="field" style="flex-direction: column;"><span>${parsedData.comentarios || 'Ninguno'}</span></div>
             </div>
         </div>
 
@@ -139,20 +192,27 @@ export async function onRequestPost({ request, env }) {
       html: htmlContent,
     });
 
+    console.log('✅ Email enviado exitosamente. ID:', emailResult.data?.id);
+
     return new Response(JSON.stringify({ 
       success: true, 
       message: 'Email enviado correctamente',
-      id: emailResult.data?.id 
+      id: emailResult.data?.id,
+      timestamp: new Date().toISOString()
     }), {
       status: 200,
       headers: { 'Content-Type': 'application/json' }
     });
 
   } catch (error) {
+    console.error('❌ Error enviando email:', error.message);
+    console.error('Stack:', error.stack);
+    
     return new Response(JSON.stringify({ 
       success: false, 
       error: 'Error enviando email',
-      details: error.message 
+      details: error.message,
+      timestamp: new Date().toISOString()
     }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' }

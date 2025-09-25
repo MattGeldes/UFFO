@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug Email UFFO</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 0 auto; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 1px solid #ccc; border-radius: 8px; }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        button { background: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+        pre { background: #f8f9fa; padding: 15px; border-radius: 4px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🧪 Debug Email UFFO - Cloudflare Functions</h1>
+    
+    <div class="test-section">
+        <h2>Test 1: Datos Completos del Formulario</h2>
+        <button onclick="testCompleteFormData()">Probar Envío Completo</button>
+        <div id="result1"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 2: Datos Mínimos</h2>
+        <button onclick="testMinimalData()">Probar Datos Básicos</button>
+        <div id="result2"></div>
+    </div>
+
+    <div class="test-section">
+        <h2>Test 3: Verificar Endpoint</h2>
+        <button onclick="testEndpointHealth()">Verificar /api/send-email</button>
+        <div id="result3"></div>
+    </div>
+
+    <script>
+        // Test con datos completos como los enviaría el formulario real
+        async function testCompleteFormData() {
+            const resultDiv = document.getElementById('result1');
+            resultDiv.innerHTML = '<p>🔄 Enviando datos completos...</p>';
+
+            const completeTestData = {
+                nombre: "Juan Pérez Test",
+                email: "juan.test@example.com",
+                telefono: "+54 9 2604002739",
+                empresa: "Test Company SA",
+                servicio: "Diseño de Logo",
+                presupuesto: "$30,000 - $50,000",
+                acepta_terminos: true,
+                mensaje: `CONSULTA DE Diseño de Logo
+
+INFORMACIÓN DE LA EMPRESA:
+- Empresa: Test Company SA
+- Industria: Tecnología
+- Tiempo operando: 2 años
+- Ubicación: Buenos Aires, Argentina (CP: 1425)
+- Website/Redes: www.testcompany.com
+
+DESCRIPCIÓN DEL NEGOCIO:
+Empresa dedicada al desarrollo de software y consultoría tecnológica para pymes argentinas.
+
+PROPUESTA ÚNICA DE VALOR:
+Brindamos soluciones tecnológicas accesibles y personalizadas para empresas en crecimiento.
+
+DETALLES DEL PROYECTO:
+- Presupuesto: $30,000 - $50,000
+- Timeline: 2-3 meses
+
+ESPECIFICACIONES DEL SERVICIO:
+{
+  "logoStyle": "moderno-minimalista",
+  "colors": "azul-corporativo",
+  "applications": ["web", "print", "social"]
+}
+
+COMUNICACIÓN:
+- Responsable de decisiones: CEO - Juan Pérez
+- Método preferido: WhatsApp
+- Horario: 9:00 - 18:00 hs
+- Frecuencia: Semanal
+
+INFORMACIÓN DE PAGO:
+- Método preferido: Transferencia bancaria
+- Cuotas: 2
+
+COMENTARIOS ADICIONALES:
+Necesitamos el logo finalizado antes del Q1 2024 para el lanzamiento de nuestra nueva campaña.`
+            };
+
+            await performEmailTest(completeTestData, resultDiv, 'Datos Completos');
+        }
+
+        // Test con datos mínimos
+        async function testMinimalData() {
+            const resultDiv = document.getElementById('result2');
+            resultDiv.innerHTML = '<p>🔄 Enviando datos mínimos...</p>';
+
+            const minimalTestData = {
+                nombre: "Test User",
+                email: "test@example.com",
+                telefono: "+54 11 1234-5678",
+                empresa: "Test Corp",
+                servicio: "Diseño de Logo",
+                presupuesto: "$30,000 - $50,000",
+                acepta_terminos: true,
+                mensaje: "Test de mensaje básico para verificar funcionalidad del endpoint."
+            };
+
+            await performEmailTest(minimalTestData, resultDiv, 'Datos Mínimos');
+        }
+
+        // Test para verificar si el endpoint responde
+        async function testEndpointHealth() {
+            const resultDiv = document.getElementById('result3');
+            resultDiv.innerHTML = '<p>🔄 Verificando endpoint...</p>';
+
+            try {
+                const response = await fetch('/api/send-email', {
+                    method: 'OPTIONS'
+                });
+
+                resultDiv.innerHTML = `
+                    <div class="success">
+                        <h3>✅ Endpoint Accesible</h3>
+                        <p><strong>Status:</strong> ${response.status}</p>
+                        <p><strong>Headers:</strong> ${JSON.stringify([...response.headers.entries()])}</p>
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error de Endpoint</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <pre>${error.stack}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Función auxiliar para realizar tests de email
+        async function performEmailTest(testData, resultDiv, testName) {
+            const startTime = Date.now();
+            
+            try {
+                console.log(`🧪 ${testName} - Enviando:`, testData);
+
+                const response = await fetch('/api/send-email', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(testData),
+                });
+
+                const responseTime = Date.now() - startTime;
+                const result = await response.json();
+
+                console.log(`📬 ${testName} - Respuesta:`, result);
+
+                if (response.ok && result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ ${testName} - Éxito</h3>
+                            <p><strong>Status:</strong> ${response.status}</p>
+                            <p><strong>Tiempo:</strong> ${responseTime}ms</p>
+                            <p><strong>Email ID:</strong> ${result.id || 'No disponible'}</p>
+                            <p><strong>Mensaje:</strong> ${result.message}</p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(result.error || `HTTP ${response.status}`);
+                }
+            } catch (error) {
+                const responseTime = Date.now() - startTime;
+                console.error(`❌ ${testName} - Error:`, error);
+
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ ${testName} - Error</h3>
+                        <p><strong>Tiempo:</strong> ${responseTime}ms</p>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <pre>${error.stack || 'No stack trace'}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        // Auto-test al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🚀 Debug Email UFFO cargado');
+            console.log('📍 URL actual:', window.location.href);
+            console.log('🌐 User Agent:', navigator.userAgent);
+        });
+    </script>
+</body>
+</html>
