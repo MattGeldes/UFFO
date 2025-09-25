@@ -186,7 +186,7 @@ export async function onRequestPost({ request, env }) {
 </html>`;
 
     const emailResult = await resend.emails.send({
-      from: 'UFFO Studios <noreply@uffostudios.com>',
+      from: 'UFFO Studios <onboarding@resend.dev>',
       to: ['somosuffo@gmail.com'],
       subject: `Nueva consulta de ${formData.servicio} - ${formData.empresa}`,
       html: htmlContent,

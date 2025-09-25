@@ -18,6 +18,12 @@
     <h1>🧪 Debug Email UFFO - Cloudflare Functions</h1>
     
     <div class="test-section">
+        <h2>Test 0: Verificar Resend Básico</h2>
+        <button onclick="testResendBasic()">Test Resend Simple</button>
+        <div id="result0"></div>
+    </div>
+
+    <div class="test-section">
         <h2>Test 1: Datos Completos del Formulario</h2>
         <button onclick="testCompleteFormData()">Probar Envío Completo</button>
         <div id="result1"></div>
@@ -36,6 +42,48 @@
     </div>
 
     <script>
+        // Test básico de Resend
+        async function testResendBasic() {
+            const resultDiv = document.getElementById('result0');
+            resultDiv.innerHTML = '<p>🔄 Probando Resend básico...</p>';
+
+            try {
+                const response = await fetch('/api/test-resend', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({}),
+                });
+
+                const result = await response.json();
+                console.log('🧪 Test Resend - Respuesta:', result);
+
+                if (response.ok && result.success) {
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <h3>✅ Resend Funciona!</h3>
+                            <p><strong>Email ID:</strong> ${result.id}</p>
+                            <p><strong>Mensaje:</strong> ${result.message}</p>
+                            <p><strong>Timestamp:</strong> ${result.timestamp}</p>
+                            <p>🎉 <strong>Revisa tu bandeja de entrada: somosuffo@gmail.com</strong></p>
+                        </div>
+                    `;
+                } else {
+                    throw new Error(result.error || `HTTP ${response.status}`);
+                }
+            } catch (error) {
+                console.error('❌ Error Test Resend:', error);
+                resultDiv.innerHTML = `
+                    <div class="error">
+                        <h3>❌ Error en Test Resend</h3>
+                        <p><strong>Error:</strong> ${error.message}</p>
+                        <pre>${error.stack || 'No stack trace'}</pre>
+                    </div>
+                `;
+            }
+        }
+
         // Test con datos completos como los enviaría el formulario real
         async function testCompleteFormData() {
             const resultDiv = document.getElementById('result1');
