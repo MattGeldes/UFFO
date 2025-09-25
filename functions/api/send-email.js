@@ -36,7 +36,8 @@ export async function onRequestPost({ request, env }) {
         empresa: '', industria: '', tiempoOperando: '', ubicacion: '', websiteRedes: '',
         descripcionNegocio: '', propuestaValor: '', presupuesto: '', timeline: '', 
         especificaciones: '', responsableDecisiones: '', metodoComunicacion: '',
-        horario: '', frecuencia: '', metodoPago: '', cuotas: '', comentarios: ''
+        horario: '', frecuencia: '', metodoPago: '', cuotas: '', comentarios: '',
+        expectativas: ''
       };
 
       let currentSection = '';
@@ -64,6 +65,7 @@ export async function onRequestPost({ request, env }) {
           else if (campo === 'Website/Redes') parsed.websiteRedes = valor;
           else if (campo === 'Presupuesto') parsed.presupuesto = valor;
           else if (campo === 'Timeline') parsed.timeline = valor;
+          else if (campo === 'Expectativas de diseño') parsed.expectativas = valor;
           else if (campo === 'Responsable de decisiones') parsed.responsableDecisiones = valor;
           else if (campo === 'Método preferido') {
             if (currentSection === 'comunicacion') parsed.metodoComunicacion = valor;
@@ -90,19 +92,101 @@ export async function onRequestPost({ request, env }) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nueva Consulta - UFFO Studios</title>
     <style>
-        body { font-family: 'Arial', sans-serif; line-height: 1.6; margin: 0; padding: 0; background-color: #f5f5f5; }
-        .container { max-width: 600px; margin: 0 auto; background: white; border-radius: 12px; overflow: hidden; }
-        .header { background: #181818; color: #BFE220; padding: 30px 20px; text-align: center; }
-        .header h1 { margin: 0; font-size: 24px; }
-        .content { padding: 30px 20px; }
-        .section { margin-bottom: 25px; padding: 20px; background: #f8f9fa; border-radius: 8px; border-left: 4px solid #BFE220; }
-        .section h2 { color: #052210; margin: 0 0 15px 0; font-size: 18px; }
-        .field { margin-bottom: 12px; display: flex; flex-wrap: wrap; }
-        .field strong { font-weight: 700; color: #052210; min-width: 140px; margin-right: 10px; }
-        .field span { color: #333; flex: 1; }
-        .footer { background: #181818; color: #BFE220; padding: 20px; text-align: center; font-size: 14px; }
+        @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap');
+        
+        body {
+            font-family: 'Rubik', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            background: #181818;
+            color: #BFE220;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #BFE220;
+        }
+        .section h2 {
+            font-family: 'Rubik', sans-serif;
+            font-weight: 700;
+            color: #052210;
+            margin: 0 0 15px 0;
+            font-size: 18px;
+        }
+        .field {
+            margin-bottom: 12px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        .field strong {
+            font-weight: 700;
+            color: #052210;
+            min-width: 140px;
+            margin-right: 10px;
+        }
+        .field span {
+            color: #333;
+            flex: 1;
+        }
+        .footer {
+            background: #181818;
+            color: #BFE220;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .footer strong {
+            font-weight: 700;
+        }
+        .description-box {
+            background: #f8fdf0;
+            border-left: 4px solid #BFE220;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .description-box h3 {
+            margin: 0 0 15px 0;
+            color: #052210;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .description-text {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
     </style>
 </head>
 <body>
@@ -113,10 +197,6 @@ export async function onRequestPost({ request, env }) {
         </div>
         
         <div class="content">
-            <div style="background: #BFE220; color: #181818; padding: 15px 20px; border-radius: 8px; margin: 20px 0; font-weight: 600; text-align: center; font-size: 16px;">
-                💼 Consulta de <strong>${formData.servicio}</strong> desde <strong>${formData.empresa}</strong>
-            </div>
-
             <div class="section">
                 <h2>👤 Información de Contacto</h2>
                 <div class="field"><strong>Nombre:</strong><span>${formData.nombre}</span></div>
@@ -127,38 +207,43 @@ export async function onRequestPost({ request, env }) {
 
             <div class="section">
                 <h2>🏢 Información de la Empresa</h2>
-                <div class="field"><strong>Empresa:</strong><span>${parsedData.empresa || formData.empresa}</span></div>
                 <div class="field"><strong>Industria:</strong><span>${parsedData.industria || 'No especificado'}</span></div>
                 <div class="field"><strong>Tiempo operando:</strong><span>${parsedData.tiempoOperando || 'No especificado'}</span></div>
                 <div class="field"><strong>Ubicación:</strong><span>${parsedData.ubicacion || 'No especificado'}</span></div>
                 <div class="field"><strong>Website/Redes:</strong><span>${parsedData.websiteRedes || 'No especificado'}</span></div>
             </div>
 
-            <div class="section">
-                <h2>� Descripción del Negocio</h2>
-                <div class="field" style="flex-direction: column;"><span>${parsedData.descripcionNegocio || 'No especificado'}</span></div>
+            ${parsedData.descripcionNegocio && parsedData.descripcionNegocio.trim() ? `
+            <div class="description-box">
+                <h3>📝 Descripción del Negocio</h3>
+                <div class="description-text">${parsedData.descripcionNegocio.trim()}</div>
             </div>
+            ` : ''}
+
+            ${parsedData.propuestaValor && parsedData.propuestaValor.trim() ? `
+            <div class="description-box">
+                <h3>🎯 Propuesta Única de Valor</h3>
+                <div class="description-text">${parsedData.propuestaValor.trim()}</div>
+            </div>
+            ` : ''}
 
             <div class="section">
-                <h2>✨ Propuesta Única de Valor</h2>
-                <div class="field" style="flex-direction: column;"><span>${parsedData.propuestaValor || 'No especificado'}</span></div>
-            </div>
-
-            <div class="section">
-                <h2>�💼 Detalles del Proyecto</h2>
+                <h2>💼 Detalles del Proyecto</h2>
                 <div class="field"><strong>Servicio:</strong><span>${formData.servicio}</span></div>
                 <div class="field"><strong>Presupuesto:</strong><span>${formData.presupuesto}</span></div>
-                <div class="field"><strong>Timeline:</strong><span>${parsedData.timeline || 'No especificado'}</span></div>
-                <div class="field"><strong>Términos:</strong><span>${formData.acepta_terminos ? 'Aceptados ✓' : 'No aceptados ✗'}</span></div>
+                <div class="field"><strong>Fecha Limite:</strong><span>${parsedData.timeline || 'No especificado'}</span></div>
+                <div class="field"><strong>Expectativas:</strong><span>${parsedData.expectativas || 'No especificado'}</span></div>
             </div>
 
+            ${parsedData.especificaciones && parsedData.especificaciones.trim() ? `
             <div class="section">
-                <h2>🔧 Especificaciones del Servicio</h2>
-                <div class="field" style="flex-direction: column;"><pre style="background: white; padding: 10px; border-radius: 4px; margin: 0; white-space: pre-wrap;">${parsedData.especificaciones || 'No especificado'}</pre></div>
+                <h2>⚙️ Especificaciones del Servicio</h2>
+                <div style="white-space: pre-wrap; font-size: 14px; line-height: 1.6;">${parsedData.especificaciones.trim()}</div>
             </div>
+            ` : ''}
 
             <div class="section">
-                <h2>📞 Información de Comunicación</h2>
+                <h2>💬 Comunicación</h2>
                 <div class="field"><strong>Responsable:</strong><span>${parsedData.responsableDecisiones || 'No especificado'}</span></div>
                 <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoComunicacion || 'No especificado'}</span></div>
                 <div class="field"><strong>Horario:</strong><span>${parsedData.horario || 'No especificado'}</span></div>
@@ -167,19 +252,27 @@ export async function onRequestPost({ request, env }) {
 
             <div class="section">
                 <h2>💳 Información de Pago</h2>
-                <div class="field"><strong>Método preferido:</strong><span>${parsedData.metodoPago || 'No especificado'}</span></div>
+                <div class="field"><strong>Método seleccionado:</strong><span>${parsedData.metodoPago || 'No especificado'}</span></div>
                 <div class="field"><strong>Cuotas:</strong><span>${parsedData.cuotas || 'No especificado'}</span></div>
             </div>
 
+            ${parsedData.comentarios && parsedData.comentarios.trim() ? `
+            <div class="description-box">
+                <h3>💬 Comentarios Adicionales</h3>
+                <div class="description-text">${parsedData.comentarios.trim()}</div>
+            </div>
+            ` : ''}
+
             <div class="section">
-                <h2>💬 Comentarios Adicionales</h2>
-                <div class="field" style="flex-direction: column;"><span>${parsedData.comentarios || 'Ninguno'}</span></div>
+                <h2>✅ Estado de la Consulta</h2>
+                <div class="field"><strong>Términos:</strong><span>${formData.acepta_terminos ? 'Aceptados ✓' : 'No aceptados ✗'}</span></div>
             </div>
         </div>
 
         <div class="footer">
             <strong>UFFO Studios</strong><br>
-            Consulta recibida el ${currentDate}
+            Consulta recibida el ${currentDate}<br>
+            Responderemos a la brevedad a ${formData.email}
         </div>
     </div>
 </body>
