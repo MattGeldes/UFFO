@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400&display=swap');
+@import 'tailwindcss';
+
+/* ── Theme tokens ───────────────────────────────────── */
+:root {
+  --c-bg: #181818;
+  --c-bg-sec: #111111;
+  --c-fg: #fdfdff;
+  --c-fg-sub: rgba(253, 253, 255, 0.5);
+  --c-accent: #c4e83f;
+  --c-accent-fg: #181818;
+  --c-border: rgba(253, 253, 255, 0.1);
+  --c-card: #1e1e1e;
+  --c-card-border: rgba(253, 253, 255, 0.08);
+  --c-input: rgba(253, 253, 255, 0.06);
+  --c-input-border: rgba(253, 253, 255, 0.14);
+}
+
+.light {
+  --c-bg: #fdfdff;
+  --c-bg-sec: #f5f5f5;
+  --c-fg: #181818;
+  --c-fg-sub: rgba(24, 24, 24, 0.5);
+  --c-accent: #643fe8;
+  --c-accent-fg: #fdfdff;
+  --c-border: rgba(24, 24, 24, 0.1);
+  --c-card: #f0f0f0;
+  --c-card-border: rgba(24, 24, 24, 0.08);
+  --c-input: rgba(24, 24, 24, 0.04);
+  --c-input-border: rgba(24, 24, 24, 0.14);
+}
+
+/* ── Base ───────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Rubik', sans-serif;
+  background-color: var(--c-bg);
+  color: var(--c-fg);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+/* ── Scroll margin for sticky nav ──────────────────── */
+#nosotros, #servicios, #trabajos, #faq {
+  scroll-margin-top: 72px;
+}
+
+/* ── Scrollbar ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--c-border); border-radius: 99px; }
+
+/* ── Fade-in on scroll ──────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.65s ease, transform 0.65s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Float animation ────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-14px) rotate(2deg); }
+}
+.float-anim {
+  animation: float 5s ease-in-out infinite;
+}
+
+/* ── Marquee ────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+}
+
+/* ── Theme transitions ──────────────────────────────── */
+.theme-transition {
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+}
