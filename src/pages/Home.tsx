@@ -50,38 +50,40 @@ const faqs = [
 /* ── Portfolio data ──────────────────────────────── */
 const works = [
   {
-    name: "Cosmos Brand",
+    name: "Bros & Burgers",
     category: "Branding",
-    desc: "Sistema de identidad visual completo para startup de tecnología sustentable.",
-    img: "https://images.unsplash.com/photo-1614036634955-ae5e90f9b9eb?w=900&h=600&fit=crop&auto=format",
+    desc: "Sistema de identidad visual completo para local de comida rápida.",
+    img: "https://instagram.fafa1-1.fna.fbcdn.net/v/t51.82787-15/654964820_18100081612929231_3033901962968026251_n.jpg?stp=dst-jpg_e35_tt6&_nc_cat=111&_nc_map=urlgen_bucketless&ig_cache_key=MzMzNzY1NDM3MDcxNzk0MjYxNg%3D%3D.3-ccb7-5&ccb=7-5&_nc_sid=58cdad&efg=eyJ2ZW5jb2RlX3RhZyI6IkNBUk9VU0VMX0lURU0ueHBpZHMuMTA4MC5zZHIucmVndWxhcl9waG90by5DMyJ9&_nc_ohc=5ghvIE8qYvcQ7kNvwGW5Nhz&_nc_oc=Adp8lFopddLXtz0wvtn5Q5v7gNCQXNQn4xlcDS1rpdBrtsPXn9t_9RRdBbP9GGPCSp0&_nc_ad=z-m&_nc_cid=0&_nc_zt=23&_nc_ht=instagram.fafa1-1.fna&_nc_gid=pPxNopmGB30sw9p9pbOx2w&_nc_ss=7a22e&oh=00_AQJT5p8SuKenfTz7__r3RhwbyJj2EmI6wh4snl9E7lJwGg&oe=6AB8423C",
     size: "large",
   },
   {
-    name: "Orbital Shop",
+    name: "DUO - Tienda online",
     category: "E-commerce",
-    desc: "Plataforma de venta digital con experiencia de usuario optimizada para conversión.",
-    img: "https://images.unsplash.com/photo-1763705857736-2b4f16a33758?w=700&h=500&fit=crop&auto=format",
+    desc: "Plataforma de venta digital con experiencia de usuario optimizada.",
+    img: "/img/screenshot-tiendanube-duo.png",
+    url: "https://duoindumentaria.com.ar/",
     size: "small",
   },
   {
-    name: "Studio Interface",
-    category: "UX/UI",
-    desc: "Diseño de interfaz para plataforma SaaS de gestión creativa.",
-    img: "https://images.unsplash.com/photo-1631477076114-9123f721b9dc?w=700&h=500&fit=crop&auto=format",
+    name: "Lima",
+    category: "Foto producto",
+    desc: "Diseño y creación de imágenes de producto de alta calidad y optimización para redes sociales.",
+    img: "/img/foto-producto-lima.jpg",
+    url: "https://www.instagram.com/limaytela/",
     size: "small",
   },
   {
-    name: "Launchpad Web",
-    category: "Web",
-    desc: "Sitio institucional de alto impacto para empresa de consultoría.",
-    img: "https://images.unsplash.com/photo-1510519138101-570d1dca3d66?w=900&h=600&fit=crop&auto=format",
+    name: "Posicionamiento web",
+    category: "SEO / SEM",
+    desc: "Sitio web optimizado para motores de búsqueda.",
+    img: "/img/seo-sem-posicionamientoweb.png",
     size: "medium",
   },
   {
-    name: "Campaign Delta",
-    category: "Marketing",
-    desc: "Campaña de lanzamiento visual para nueva línea de productos.",
-    img: "https://images.unsplash.com/photo-1597979732130-9d2ad18df38b?w=700&h=500&fit=crop&auto=format",
+    name: "Moni Lorca",
+    category: "Landing page",
+    desc: "Página personalizada y destinada para promoción de servicio.",
+    img: "/img/screenshot-landingpage-moni.png",
     size: "medium",
   },
 ];
@@ -650,6 +652,10 @@ export default function Home() {
 function WorkCard({ work }: { work: (typeof works)[0] }) {
   const [hovered, setHovered] = useState(false);
 
+  const openWork = () => {
+    if (work.url) window.open(work.url, "_blank", "noopener,noreferrer");
+  };
+
   return (
     <div
       className="relative overflow-hidden group cursor-pointer theme-transition"
@@ -659,6 +665,16 @@ function WorkCard({ work }: { work: (typeof works)[0] }) {
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      onClick={openWork}
+      onKeyDown={(event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openWork();
+        }
+      }}
+      role={work.url ? "link" : undefined}
+      tabIndex={work.url ? 0 : undefined}
+      aria-label={work.url ? `Visitar ${work.name}` : undefined}
     >
       {/* Image */}
       <img
