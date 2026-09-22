@@ -76,7 +76,7 @@ const works = [
     name: "Posicionamiento web",
     category: "SEO / SEM",
     desc: "Sitio web optimizado para motores de búsqueda.",
-    img: "img/seo-sem-posicionamientoweb.png",
+    img: "img/seo-sem-posicionamientoweb.jpg",
     size: "medium",
   },
   {
