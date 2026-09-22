@@ -1,9 +1,11 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import UffoLogo from "./UffoLogo";
+import { useLanguage } from "../i18n";
 
 export default function Footer() {
   const navigate = useNavigate();
   const location = useLocation();
+  const { copy } = useLanguage();
 
   const scrollTo = (id: string) => {
     if (location.pathname !== "/") {
@@ -41,26 +43,26 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-sm font-medium mb-2" style={{ color: "var(--c-fg)" }}>
-              Personas creando para personas.
+              {copy.footer.tagline}
             </p>
             <p className="text-sm" style={{ color: "var(--c-fg-sub)" }}>
-              San Rafael, Mendoza, Argentina.
+              {copy.footer.location}
             </p>
           </div>
 
           {/* Nav links */}
           <div className="flex flex-col gap-3">
             <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--c-fg-sub)" }}>
-              Navegación
+              {copy.footer.navigation}
             </p>
             {[
-              { label: "Inicio", action: goHome },
-              { label: "Nosotros", action: () => scrollTo("nosotros") },
-              { label: "Servicios", action: () => scrollTo("servicios") },
-              { label: "Trabajos", action: () => scrollTo("trabajos") },
-              { label: "FAQ", action: () => scrollTo("faq") },
+              { label: copy.footer.home, action: goHome },
+              { label: copy.footer.about, action: () => scrollTo("nosotros") },
+              { label: copy.footer.services, action: () => scrollTo("servicios") },
+              { label: copy.footer.works, action: () => scrollTo("trabajos") },
+              { label: copy.footer.faq, action: () => scrollTo("faq") },
               {
-                label: "Contacto",
+                label: copy.footer.contact,
                 action: () => {
                   window.scrollTo(0, 0);
                   navigate("/contact");
@@ -83,7 +85,7 @@ export default function Footer() {
           {/* Social */}
           <div className="flex flex-col gap-3">
             <p className="text-xs font-bold tracking-widest uppercase mb-1" style={{ color: "var(--c-fg-sub)" }}>
-              Redes
+              {copy.footer.networks}
             </p>
               {[
                 { label: "Instagram", href: "https://www.instagram.com/uffostudios/" },
@@ -113,10 +115,10 @@ export default function Footer() {
           style={{ borderTop: "1px solid var(--c-border)" }}
         >
           <p className="text-xs" style={{ color: "var(--c-fg-sub)" }}>
-            © {new Date().getFullYear()} UFFO studios. Todos los derechos reservados.
+            © {new Date().getFullYear()} UFFO studios. {copy.footer.rights}
           </p>
           <p className="text-xs" style={{ color: "var(--c-fg-sub)" }}>
-            Diseñado por{" "}
+            {copy.footer.designedBy}{" "}
             <span className="font-medium" style={{ color: "var(--c-fg)" }}>
               UFFO studios
             </span>

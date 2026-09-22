@@ -2,9 +2,11 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTheme } from "../App";
 import UffoLogo from "./UffoLogo";
+import { useLanguage } from "../i18n";
 
 export default function Navbar() {
   const { theme, toggleTheme } = useTheme();
+  const { language, setLanguage, copy } = useLanguage();
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +64,12 @@ export default function Navbar() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
-            {["nosotros", "servicios", "trabajos", "faq"].map((id) => (
+            {[
+              ["nosotros", copy.nav.nosotros],
+              ["servicios", copy.nav.servicios],
+              ["trabajos", copy.nav.trabajos],
+              ["faq", copy.nav.faq],
+            ].map(([id, label]) => (
               <button
                 key={id}
                 onClick={() => handleAnchorClick(id)}
@@ -71,9 +78,27 @@ export default function Navbar() {
                 onMouseEnter={(e) => (e.currentTarget.style.color = "var(--c-fg)")}
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--c-fg-sub)")}
               >
-                {id.charAt(0).toUpperCase() + id.slice(1)}
+                {label}
               </button>
             ))}
+
+            <div className="flex items-center gap-1 text-xs font-bold tracking-widest" style={{ color: "var(--c-fg-sub)" }}>
+              <button
+                onClick={() => setLanguage("es")}
+                aria-pressed={language === "es"}
+                style={{ color: language === "es" ? "var(--c-accent)" : "var(--c-fg-sub)" }}
+              >
+                ES
+              </button>
+              <span>/</span>
+              <button
+                onClick={() => setLanguage("en")}
+                aria-pressed={language === "en"}
+                style={{ color: language === "en" ? "var(--c-accent)" : "var(--c-fg-sub)" }}
+              >
+                EN
+              </button>
+            </div>
 
             {/* Theme toggle */}
             <button
@@ -83,7 +108,7 @@ export default function Navbar() {
                 color: "var(--c-fg-sub)",
                 border: "1px solid var(--c-border)",
               }}
-              title={theme === "dark" ? "Cambiar a Light Mode" : "Cambiar a Dark Mode"}
+              title={theme === "dark" ? copy.nav.lightMode : copy.nav.darkMode}
             >
               {theme === "dark" ? "☀" : "☾"}
             </button>
@@ -99,7 +124,7 @@ export default function Navbar() {
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              COMENZAR PROYECTO →
+              {copy.nav.startProject}
             </button>
           </nav>
 
@@ -107,7 +132,7 @@ export default function Navbar() {
           <button
             className="flex md:hidden flex-col gap-1.5 p-2"
             onClick={() => setMenuOpen(!menuOpen)}
-            aria-label="Menú"
+            aria-label={copy.nav.menu}
             aria-expanded={menuOpen}
           >
             <span
@@ -147,11 +172,11 @@ export default function Navbar() {
         }}
       >
         <div className="flex flex-col justify-center h-full px-8 gap-10 pt-20">
-          {[
-            { label: "Nosotros", id: "nosotros" },
-            { label: "Servicios", id: "servicios" },
-            { label: "Trabajos", id: "trabajos" },
-            { label: "FAQ", id: "faq" },
+            {[
+            { label: copy.nav.nosotros, id: "nosotros" },
+            { label: copy.nav.servicios, id: "servicios" },
+            { label: copy.nav.trabajos, id: "trabajos" },
+            { label: copy.nav.faq, id: "faq" },
           ].map(({ label, id }) => (
             <button
               key={id}
@@ -170,7 +195,7 @@ export default function Navbar() {
             className="text-left text-4xl font-bold tracking-tight"
             style={{ color: "var(--c-accent)" }}
           >
-            Comenzar proyecto
+            {copy.nav.startProject}
           </button>
 
           {/* Theme toggle in mobile */}
@@ -180,8 +205,13 @@ export default function Navbar() {
               className="flex items-center gap-3 text-sm font-medium theme-transition"
               style={{ color: "var(--c-fg-sub)" }}
             >
-              {theme === "dark" ? "☀ Light Mode" : "☾ Dark Mode"}
+              {theme === "dark" ? copy.nav.light : copy.nav.dark}
             </button>
+            <div className="flex items-center gap-3 text-sm font-bold tracking-widest" style={{ color: "var(--c-fg-sub)" }}>
+              <button onClick={() => setLanguage("es")} style={{ color: language === "es" ? "var(--c-accent)" : "var(--c-fg-sub)" }}>ES</button>
+              <span>/</span>
+              <button onClick={() => setLanguage("en")} style={{ color: language === "en" ? "var(--c-accent)" : "var(--c-fg-sub)" }}>EN</button>
+            </div>
           </div>
         </div>
       </div>

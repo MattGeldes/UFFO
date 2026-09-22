@@ -1,40 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useTheme } from "../App";
 import UffoLogo from "../components/UffoLogo";
 import Footer from "../components/Footer";
-
-const serviceOptions = [
-  "Branding",
-  "Identidad visual",
-  "Diseño web",
-  "Desarrollo web",
-  "E-commerce",
-  "UX/UI",
-  "Diseño gráfico",
-  "Marketing digital",
-  "SEO / SEM",
-  "Animación",
-  "Contenido visual",
-  "Otro",
-];
-
-const howOptions = [
-  "Instagram",
-  "TikTok",
-  "Google",
-  "Behance",
-  "Recomendación / referencia",
-  "Un cliente anterior",
-  "Evento",
-  "Universidad / institución",
-  "Otro",
-];
+import { useLanguage } from "../i18n";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
 export default function Contact() {
-  const { theme } = useTheme();
+  const { copy } = useLanguage();
   const navigate = useNavigate();
   const [status, setStatus] = useState<FormStatus>("idle");
   const [showModal, setShowModal] = useState(false);
@@ -61,11 +34,11 @@ export default function Contact() {
 
   const validate = () => {
     const errs: Record<string, string> = {};
-    if (!form.name.trim()) errs.name = "Tu nombre es requerido.";
-    if (!form.email.trim()) errs.email = "El email es requerido.";
-    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = "Email inválido.";
-    if (!form.service) errs.service = "Seleccioná un servicio.";
-    if (!form.description.trim()) errs.description = "Describinos tu proyecto.";
+    if (!form.name.trim()) errs.name = copy.contact.errorRequiredName;
+    if (!form.email.trim()) errs.email = copy.contact.errorRequiredEmail;
+    else if (!/\S+@\S+\.\S+/.test(form.email)) errs.email = copy.contact.errorInvalidEmail;
+    if (!form.service) errs.service = copy.contact.errorRequiredService;
+    if (!form.description.trim()) errs.description = copy.contact.errorRequiredDescription;
     return errs;
   };
 
@@ -93,7 +66,7 @@ export default function Contact() {
           servicio: form.service,
           proyecto: form.description,
           como_nos_conocio: form.how || "No informado",
-          _subject: `Nuevo proyecto desde UFFO: ${form.name}`,
+          _subject: `${copy.contact.submit}: ${form.name}`,
           _replyto: form.email,
           _template: "table",
           _captcha: "false",
@@ -160,21 +133,21 @@ export default function Contact() {
             className="inline-block text-xs font-bold tracking-[0.2em] uppercase py-1.5 px-3 mb-8 theme-transition"
             style={{ color: "var(--c-accent)", border: "1px solid var(--c-accent)" }}
           >
-            Contacto
+            {copy.contact.label}
           </span>
           <h1
             className="text-5xl md:text-7xl lg:text-8xl font-bold uppercase leading-tight mb-6"
             style={{ color: "var(--c-fg)" }}
           >
-            Comencemos
+            {copy.contact.title[0]}
             <br />
-            <span style={{ color: "var(--c-accent)" }}>a cranear.</span>
+            <span style={{ color: "var(--c-accent)" }}>{copy.contact.title[1]}</span>
           </h1>
           <p
             className="text-base md:text-lg font-light max-w-md"
             style={{ color: "var(--c-fg-sub)" }}
           >
-            Contanos qué necesitás y nos ponemos en contacto con vos.
+            {copy.contact.intro}
           </p>
         </div>
       </section>
@@ -184,11 +157,11 @@ export default function Contact() {
         <div className="max-w-2xl mx-auto">
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-8">
             {/* Name */}
-            <Field fieldId="name" label="¿Cómo te llamás?" error={errors.name}>
+            <Field fieldId="name" label={copy.contact.nameLabel} error={errors.name}>
               <input
                 id="name"
                 type="text"
-                placeholder="Tu nombre"
+                placeholder={copy.contact.namePlaceholder}
                 value={form.name}
                 onChange={(e) => update("name", e.target.value)}
                 aria-invalid={Boolean(errors.name)}
@@ -199,7 +172,7 @@ export default function Contact() {
             </Field>
 
             {/* Phone */}
-            <Field fieldId="phone" label="WhatsApp">
+            <Field fieldId="phone" label={copy.contact.phoneLabel}>
               <input
                 id="phone"
                 type="tel"
@@ -213,7 +186,7 @@ export default function Contact() {
             </Field>
 
             {/* Email */}
-            <Field fieldId="email" label="Email" error={errors.email}>
+            <Field fieldId="email" label={copy.contact.emailLabel} error={errors.email}>
               <input
                 id="email"
                 type="email"
@@ -228,7 +201,7 @@ export default function Contact() {
             </Field>
 
             {/* Service */}
-            <Field fieldId="service" label="¿Qué necesitás?" error={errors.service}>
+            <Field fieldId="service" label={copy.contact.serviceLabel} error={errors.service}>
               <div className="relative">
                 <select
                   id="service"
@@ -244,9 +217,9 @@ export default function Contact() {
                   onBlur={(e) => blurStyle(e, "service")}
                 >
                   <option value="" disabled style={{ backgroundColor: "var(--c-bg)", color: "var(--c-fg-sub)" }}>
-                    Seleccioná una opción
+                    {copy.contact.selectPlaceholder}
                   </option>
-                  {serviceOptions.map((opt) => (
+                  {copy.contact.serviceOptions.map((opt) => (
                     <option key={opt} value={opt} style={{ backgroundColor: "var(--c-bg)", color: "var(--c-fg)" }}>
                       {opt}
                     </option>
@@ -262,10 +235,10 @@ export default function Contact() {
             </Field>
 
             {/* Description */}
-            <Field fieldId="description" label="Describinos mejor tu idea" error={errors.description}>
+            <Field fieldId="description" label={copy.contact.descriptionLabel} error={errors.description}>
               <textarea
                 id="description"
-                placeholder="Contanos un poco más sobre tu proyecto, qué querés lograr, en qué etapa estás y cualquier información que creas importante..."
+                placeholder={copy.contact.descriptionPlaceholder}
                 value={form.description}
                 onChange={(e) => update("description", e.target.value)}
                 aria-invalid={Boolean(errors.description)}
@@ -281,7 +254,7 @@ export default function Contact() {
             </Field>
 
             {/* How */}
-            <Field fieldId="how" label="¿Cómo nos conociste?">
+            <Field fieldId="how" label={copy.contact.howLabel}>
               <div className="relative">
                 <select
                   id="how"
@@ -296,9 +269,9 @@ export default function Contact() {
                   onBlur={(e) => blurStyle(e, "how")}
                 >
                   <option value="" style={{ backgroundColor: "var(--c-bg)", color: "var(--c-fg-sub)" }}>
-                    Seleccioná una opción
+                    {copy.contact.selectPlaceholder}
                   </option>
-                  {howOptions.map((opt) => (
+                  {copy.contact.howOptions.map((opt) => (
                     <option key={opt} value={opt} style={{ backgroundColor: "var(--c-bg)", color: "var(--c-fg)" }}>
                       {opt}
                     </option>
@@ -317,7 +290,7 @@ export default function Contact() {
             <div className="pt-4">
               {status === "error" && (
                 <p className="text-sm mb-4" style={{ color: "#e55" }}>
-                  Hubo un error al enviar. Intentá de nuevo.
+                  {copy.contact.submitError}
                 </p>
               )}
               <button
@@ -333,10 +306,10 @@ export default function Contact() {
                 {status === "loading" ? (
                   <>
                     <span className="inline-block w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                    ENVIANDO...
+                    {copy.contact.sending}
                   </>
                 ) : (
-                  "ENVIAR PROYECTO →"
+                  copy.contact.submit
                 )}
               </button>
             </div>
@@ -369,16 +342,16 @@ export default function Contact() {
               className="text-2xl md:text-3xl font-bold uppercase mb-4"
               style={{ color: "var(--c-fg)" }}
             >
-              ¡Gracias por contactarnos!
+              {copy.contact.successTitle}
             </h2>
 
             <p
               className="text-sm md:text-base font-light leading-relaxed mb-10"
               style={{ color: "var(--c-fg-sub)" }}
             >
-              Ya recibimos tu proyecto.
+              {copy.contact.successBody[0]}
               <br />
-              En breve nos vamos a poner en contacto con vos.
+              {copy.contact.successBody[1]}
             </p>
 
             <button
@@ -388,7 +361,7 @@ export default function Contact() {
               onMouseEnter={(e) => (e.currentTarget.style.opacity = "0.85")}
               onMouseLeave={(e) => (e.currentTarget.style.opacity = "1")}
             >
-              VOLVER AL INICIO
+              {copy.contact.backHome}
             </button>
           </div>
         </div>
